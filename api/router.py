@@ -25,11 +25,8 @@ from database.queries import (
 router = APIRouter()
 
 
-get_db = db_manager.get_db
-
-
 @router.get("/")
-async def root_api(db: Session = Depends(get_db)):
+async def root_api(db: Session = Depends(db_manager.get_db)):
     """Корневой эндпоинт с информацией о API и примерами запросов"""
 
     # Получаем примеры данных
@@ -45,12 +42,12 @@ async def root_api(db: Session = Depends(get_db)):
     subject_example = subjects_sample[0][0] if subjects_sample else "Математика"
 
     example_urls = {
-        "faculty_abiturients": f"/api/faculty/{faculty_example}/abiturients",
-        "student_grades": f"/api/student/{student_example[0]}/{student_example[1]}/grades",
-        "student_schedule": f"/api/student/{student_example[0]}/{student_example[1]}/schedule/{subject_example}",
-        "group_schedule": f"/api/group/{group_example}/schedule",
-        "faculty_rating": f"/api/faculty/{faculty_example}/rating",
-        "faculty_avg_grades": f"/api/faculty/{faculty_example}/avg-grades"
+        "faculty_abiturients": f"/faculty/{faculty_example}/abiturients",
+        "student_grades": f"/student/{student_example[0]}/{student_example[1]}/grades",
+        "student_schedule": f"/student/{student_example[0]}/{student_example[1]}/schedule/{subject_example}",
+        "group_schedule": f"/group/{group_example}/schedule",
+        "faculty_rating": f"/faculty/{faculty_example}/rating",
+        "faculty_avg_grades": f"/faculty/{faculty_example}/avg-grades"
     }
 
     # Статистика
@@ -63,10 +60,10 @@ async def root_api(db: Session = Depends(get_db)):
 
     # Примеры доступных данных
     examples = {
-        "available_faculties": [f[0] for f in faculties_with_students[:5]],
-        "available_students": [{"last_name": s[0], "first_name": s[1]} for s in students_sample[:5]],
-        "available_groups": [g[0] for g in groups_sample[:5]],
-        "available_subjects": [s[0] for s in subjects_sample[:5]]
+        "available_faculties": [f[0] for f in faculties_with_students[:3]],
+        "available_students": [{"last_name": s[0], "first_name": s[1]} for s in students_sample[:3]],
+        "available_groups": [g[0] for g in groups_sample[:3]],
+        "available_subjects": [s[0] for s in subjects_sample[:3]]
     }
 
     return {
@@ -74,32 +71,32 @@ async def root_api(db: Session = Depends(get_db)):
         "description": "API для работы с базой данных абитуриентов университета",
         "endpoints": {
             "1.": {
-                "path": "/api/faculty/{faculty_name}/abiturients",
+                "path": "/faculty/{faculty_name}/abiturients",
                 "description": "Получить всех абитуриентов указанного факультета",
                 "example": example_urls["faculty_abiturients"]
             },
             "2.": {
-                "path": "/api/student/{last_name}/{first_name}/grades",
+                "path": "/student/{last_name}/{first_name}/grades",
                 "description": "Получить все оценки абитуриента",
                 "example": example_urls["student_grades"]
             },
             "3.": {
-                "path": "/api/student/{last_name}/{first_name}/schedule/{subject_name}",
+                "path": "/student/{last_name}/{first_name}/schedule/{subject_name}",
                 "description": "Получить расписание консультаций и экзаменов для абитуриента по предмету",
                 "example": example_urls["student_schedule"]
             },
             "4.": {
-                "path": "/api/group/{group_name}/schedule",
+                "path": "/group/{group_name}/schedule",
                 "description": "Получить расписание экзаменов для учебной группы",
                 "example": example_urls["group_schedule"]
             },
             "5.": {
-                "path": "/api/faculty/{faculty_name}/rating",
+                "path": "/faculty/{faculty_name}/rating",
                 "description": "Получить рейтинг абитуриентов факультета по сумме баллов",
                 "example": example_urls["faculty_rating"]
             },
             "6.": {
-                "path": "/api/faculty/{faculty_name}/avg-grades",
+                "path": "/faculty/{faculty_name}/avg-grades",
                 "description": "Получить средний балл по предметам на факультете",
                 "example": example_urls["faculty_avg_grades"]
             },
@@ -113,10 +110,10 @@ async def root_api(db: Session = Depends(get_db)):
     }
 
 
-@router.get("/api/faculty/{faculty_name}/abiturients")
+@router.get("/faculty/{faculty_name}/abiturients")
 async def get_faculty_students_api(
         faculty_name: str,
-        db: Session = Depends(get_db)
+        db: Session = Depends(db_manager.get_db)
 ):
     """
     Получить всех абитуриентов указанного факультета
@@ -152,11 +149,11 @@ async def get_faculty_students_api(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/api/student/{last_name}/{first_name}/grades")
+@router.get("/student/{last_name}/{first_name}/grades")
 async def get_student_grades_api(
         last_name: str,
         first_name: str,
-        db: Session = Depends(get_db)
+        db: Session = Depends(db_manager.get_db)
 ):
     """
     Получить все оценки абитуриента
@@ -189,12 +186,12 @@ async def get_student_grades_api(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/api/student/{last_name}/{first_name}/schedule/{subject_name}")
+@router.get("/student/{last_name}/{first_name}/schedule/{subject_name}")
 async def get_student_subject_schedule_api(
         last_name: str,
         first_name: str,
         subject_name: str,
-        db: Session = Depends(get_db)
+        db: Session = Depends(db_manager.get_db)
 ):
     """
     Получить расписание консультаций и экзаменов для абитуриента по предмету
@@ -228,10 +225,10 @@ async def get_student_subject_schedule_api(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/api/group/{group_name}/schedule")
+@router.get("/group/{group_name}/schedule")
 async def get_group_schedule_api(
         group_name: str,
-        db: Session = Depends(get_db)
+        db: Session = Depends(db_manager.get_db)
 ):
     """
     Получить расписание экзаменов для учебной группы
@@ -264,10 +261,10 @@ async def get_group_schedule_api(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/api/faculty/{faculty_name}/rating")
+@router.get("/faculty/{faculty_name}/rating")
 async def get_faculty_rating_api(
         faculty_name: str,
-        db: Session = Depends(get_db)
+        db: Session = Depends(db_manager.get_db)
 ):
     """
     Получить рейтинг абитуриентов факультета по сумме баллов
@@ -301,10 +298,10 @@ async def get_faculty_rating_api(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/api/faculty/{faculty_name}/avg-grades")
+@router.get("/faculty/{faculty_name}/avg-grades")
 async def get_faculty_avg_grades_api(
         faculty_name: str,
-        db: Session = Depends(get_db)
+        db: Session = Depends(db_manager.get_db)
 ):
     """
     Получить средний балл по предметам на факультете
