@@ -1,7 +1,7 @@
 import uvicorn
 from core import config
 from fastapi import FastAPI
-from api.router import router
+from api.routers import faculty_router, group_router, root_router, student_router
 
 
 def create_app():
@@ -10,7 +10,10 @@ def create_app():
         description="API для работы с базой данных абитуриентов",
         version="1.0.0"
     )
-    app.include_router(router)
+    app.include_router(root_router)
+    app.include_router(group_router)
+    app.include_router(faculty_router)
+    app.include_router(student_router)
 
     return app
 
