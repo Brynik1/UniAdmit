@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 def get_faculty_students(
         faculty_name: str,
         session: Session,
+        sort: bool = False,
         limit: int = None
 ):
     """Получить абитуриентов факультета"""
@@ -26,6 +27,13 @@ def get_faculty_students(
         .join(Faculty, Department.faculty_id == Faculty.id) \
         .filter(Faculty.name == faculty_name) \
 
+    if sort:
+        query = query.order_by(
+            Abiturient.last_name,
+            Abiturient.first_name,
+            Abiturient.patronymic
+        )
+
     return query.limit(limit).all() if limit else query.all()
 
 
@@ -33,6 +41,7 @@ def get_student_grades(
         last_name: str,
         first_name: str,
         session: Session,
+        sort: bool = False,
         limit: int = None
 ):
     """Получить оценки абитуриента"""
@@ -48,6 +57,11 @@ def get_student_grades(
         .join(Subject, ExamRecord.subject_id == Subject.id) \
         .filter(Abiturient.last_name == last_name, Abiturient.first_name == first_name) \
 
+    if sort:
+        query = query.order_by (
+            ExamRecord.record_date
+        )
+
     return query.limit(limit).all() if limit else query.all()
 
 
@@ -56,6 +70,7 @@ def get_student_subject_schedule(
         first_name: str,
         subject_name: str,
         session: Session,
+        sort: bool = False,
         limit: int = None
 ):
     """Получить расписание консультаций и экзаменов для абитуриента по предмету"""
@@ -78,8 +93,12 @@ def get_student_subject_schedule(
         Abiturient.last_name == last_name,
         Abiturient.first_name == first_name,
         Subject.name == subject_name
-    ) \
-        .order_by(ExamSchedule.record_date) \
+    )
+
+    if sort:
+        query = query.order_by(
+            ExamSchedule.record_date
+        )
 
     return query.limit(limit).all() if limit else query.all()
 
@@ -87,6 +106,7 @@ def get_student_subject_schedule(
 def get_group_schedule(
         group_name: str,
         session: Session,
+        sort: bool = False,
         limit: int = None
 ):
     """Получить расписание экзаменов для учебной группы"""
@@ -103,7 +123,12 @@ def get_group_schedule(
         .join(Stream, ExamSchedule.stream_id == Stream.id) \
         .join(StreamGroup, Stream.id == StreamGroup.stream_id) \
         .join(StudyGroup, StreamGroup.group_id == StudyGroup.id) \
-        .filter(StudyGroup.name == group_name) \
+        .filter(StudyGroup.name == group_name)
+
+    if sort:
+        query = query.order_by(
+            ExamSchedule.record_date
+        )
 
     return query.limit(limit).all() if limit else query.all()
 
@@ -111,6 +136,7 @@ def get_group_schedule(
 def get_faculty_rating(
         faculty_name: str,
         session: Session,
+        sort: bool = True,
         limit: int = None
 ):
     """Получить рейтинг абитуриентов факультета по сумме баллов"""
@@ -129,7 +155,11 @@ def get_faculty_rating(
         .join(ExamRecord, ExaminationList.id == ExamRecord.ex_list_id) \
         .filter(Faculty.name == faculty_name) \
         .group_by(Abiturient.id, Abiturient.last_name, Abiturient.first_name, Abiturient.has_medal) \
-        .order_by(func.sum(ExamRecord.grade).desc()) \
+
+    if sort:
+        query = query.order_by(
+            func.sum(ExamRecord.grade).desc()
+        )
 
     return query.limit(limit).all() if limit else query.all()
 
@@ -137,6 +167,7 @@ def get_faculty_rating(
 def get_faculty_avg_grades(
         faculty_name: str,
         session: Session,
+        sort: bool = False,
         limit: int = None
 ):
     """Получить средний балл по предметам на факультете"""
@@ -150,5 +181,10 @@ def get_faculty_avg_grades(
         .join(Faculty, Department.faculty_id == Faculty.id) \
         .filter(Faculty.name == faculty_name) \
         .group_by(Subject.id, Subject.name) \
+
+    if sort:
+        query = query.order_by(
+            func.avg(ExamRecord.grade)
+        )
 
     return query.limit(limit).all() if limit else query.all()

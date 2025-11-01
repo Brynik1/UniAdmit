@@ -19,7 +19,8 @@ from database.queries import (
 from services.seeding import seeder
 
 # Конфигурация тестирования
-TEST_SIZES = [100, 5000, 10000, 50000, 100000, 500000, 1000000]
+# TEST_SIZES = [100, 5000, 10000, 50000, 100000, 500000, 1000000]
+TEST_SIZES = [100, 1000, 2000]
 ITERATIONS = 3
 
 # Глобальная переменная для хранения результатов
@@ -93,7 +94,7 @@ def run_query_tests(size, test_data):
             'name': 'Абитуриенты факультета',
             'func': get_faculty_students,
             'args': [test_data['faculties'][0]],
-            'kwargs': {'limin': 5}
+            'kwargs': {'limit': 5}
         },
         {
             'name': 'Оценки студента',
@@ -102,7 +103,7 @@ def run_query_tests(size, test_data):
                 test_data['students'][0]['last_name'],
                 test_data['students'][0]['first_name']
             ],
-            'kwargs': {'limin': 5}
+            'kwargs': {'limit': 5}
         },
         {
             'name': 'Расписание студента по предмету',
@@ -112,25 +113,25 @@ def run_query_tests(size, test_data):
                 test_data['students'][0]['first_name'],
                 test_data['subjects'][0]
             ],
-            'kwargs': {'limin': 5}
+            'kwargs': {'limit': 5}
         },
         {
             'name': 'Расписание группы',
             'func': get_group_schedule,
             'args': [test_data['groups'][0]],
-            'kwargs': {'limin': 5}
+            'kwargs': {'limit': 5}
         },
         {
             'name': 'Рейтинг факультета',
             'func': get_faculty_rating,
             'args': [test_data['faculties'][0]],
-            'kwargs': {'limin': 5}
+            'kwargs': {'limit': 5}
         },
         {
             'name': 'Средние оценки факультета',
             'func': get_faculty_avg_grades,
             'args': [test_data['faculties'][0]],
-            'kwargs': {'limin': 5}
+            'kwargs': {'limit': 5}
         }
     ]
 
