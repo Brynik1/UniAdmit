@@ -136,7 +136,7 @@ def get_group_schedule(
 def get_faculty_rating(
         faculty_name: str,
         session: Session,
-        sort: bool = True,
+        sort: bool = False,
         limit: int = None
 ):
     """Получить рейтинг абитуриентов факультета по сумме баллов"""
