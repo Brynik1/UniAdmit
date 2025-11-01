@@ -1,3 +1,3 @@
-from .run_api import run_api
+from .application import run_api
 
 __all__ = ['run_api']

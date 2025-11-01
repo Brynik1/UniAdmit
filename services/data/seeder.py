@@ -1,6 +1,6 @@
 from database import db_manager
-from .data.sample_data import generate_sample_data
-from .data.bulk_data import generate_bulk_data
+from .generators.sample_data import generate_sample_data
+from .generators.bulk_data import generate_bulk_data
 from core import config
 
 from database.repositories import (
@@ -54,11 +54,11 @@ class Seeder:
                 if table_name in repos:
                     repo = repos[table_name]
 
-                    # Если data - это список записей
+                    # Если generators - это список записей
                     if isinstance(data, list):
                         repo.bulk_create(data)
 
-                    # Если data - это одна запись (словарь)
+                    # Если generators - это одна запись (словарь)
                     elif isinstance(data, dict):
                         repo.create(**data)
 

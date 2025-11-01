@@ -16,7 +16,7 @@ from database.queries import (
     get_groups_sample,
     get_subjects_sample
 )
-from services.seeding import seeder
+from services.data import seeder
 
 # Конфигурация тестирования
 TEST_SIZES = [100, 5000, 10000, 50000, 100000, 500000, 1000000]

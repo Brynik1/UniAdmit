@@ -1,6 +1,6 @@
 import sys
 from database import db_manager
-from services.seeding import seeder
+from services.data import seeder
 from services.demo import execute_all_queries
 from core import config
 from api import run_api

@@ -1,4 +1,4 @@
 from .seeder import Seeder, seeder
-from .data import DataMode, DataConfig
+from .generators import DataMode, DataConfig
 
 __all__ = ['Seeder', 'seeder', 'DataMode', 'DataConfig']
