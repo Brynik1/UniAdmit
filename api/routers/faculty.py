@@ -46,6 +46,7 @@ async def get_faculty_students_api(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
+
 @router.get("/{faculty_name}/rating")
 async def get_faculty_rating_api(
     faculty_name: str,
