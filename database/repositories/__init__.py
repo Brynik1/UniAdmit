@@ -1,4 +1,4 @@
-from .repositories import (
+from .child_repositories import (
     FacultyRepository,
     DepartmentRepository,
     SchoolRepository,

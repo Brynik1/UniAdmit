@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .repositories import (
+from .child_repositories import (
     FacultyRepository, DepartmentRepository, SchoolRepository,
     SubjectRepository, StudyGroupRepository, ExaminationListRepository,
     StreamRepository, AbiturientRepository, ExamRecordRepository,
