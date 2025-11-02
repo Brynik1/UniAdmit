@@ -30,7 +30,8 @@ from .repositories import (
     AbiturientRepository,
     ExamRecordRepository,
     StreamGroupRepository,
-    ExamScheduleRepository
+    ExamScheduleRepository,
+    MainRepository
 )
 
 __all__ = [
@@ -61,5 +62,6 @@ __all__ = [
     'AbiturientRepository',
     'ExamRecordRepository',
     'StreamGroupRepository',
-    'ExamScheduleRepository'
+    'ExamScheduleRepository',
+    'MainRepository'
 ]

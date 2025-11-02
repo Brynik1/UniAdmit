@@ -11,6 +11,7 @@ from .repositories import (
     StreamGroupRepository,
     ExamScheduleRepository
 )
+from .main_repository import MainRepository
 
 __all__ = [
     'FacultyRepository',
@@ -23,5 +24,6 @@ __all__ = [
     'AbiturientRepository',
     'ExamRecordRepository',
     'StreamGroupRepository',
-    'ExamScheduleRepository'
+    'ExamScheduleRepository',
+    'MainRepository',
 ]
