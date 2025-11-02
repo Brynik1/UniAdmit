@@ -3,29 +3,11 @@ from .generators.sample_data import generate_sample_data
 from .generators.bulk_data import generate_bulk_data
 from core import config
 
-from database.repositories import (
-    FacultyRepository, DepartmentRepository, SchoolRepository,
-    SubjectRepository, StudyGroupRepository, ExaminationListRepository,
-    StreamRepository, AbiturientRepository, ExamRecordRepository,
-    StreamGroupRepository, ExamScheduleRepository
-)
+from database.repositories import MainRepository
 
 
 class Seeder:
     def __init__(self):
-        self.repositories = {
-            'faculty': FacultyRepository,
-            'department': DepartmentRepository,
-            'school': SchoolRepository,
-            'subject': SubjectRepository,
-            'study_group': StudyGroupRepository,
-            'examination_list': ExaminationListRepository,
-            'stream': StreamRepository,
-            'abiturient': AbiturientRepository,
-            'exam_record': ExamRecordRepository,
-            'stream_group': StreamGroupRepository,
-            'exam_schedule': ExamScheduleRepository
-        }
         self.data_config = config.data
 
     def seed(self):
@@ -46,22 +28,12 @@ class Seeder:
             )
 
         with db_manager.get_session() as session:
-            repos = {name: repo_class(session) for name, repo_class in self.repositories.items()}
+            repo = MainRepository(session)
 
-            for item in data_generator:
-                table_name, data = item
+            for (table_name, data) in data_generator:
 
-                if table_name in repos:
-                    repo = repos[table_name]
-
-                    # Если generators - это список записей
-                    if isinstance(data, list):
-                        repo.bulk_create(data)
-
-                    # Если generators - это одна запись (словарь)
-                    elif isinstance(data, dict):
-                        repo.create(**data)
-
+                child_repo = getattr(repo, table_name)
+                child_repo.bulk_create(data)
 
 
 # Создаем глобальный экземпляр сидера
