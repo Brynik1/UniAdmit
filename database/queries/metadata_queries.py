@@ -40,7 +40,7 @@ def get_schools(
         limit: int = None
 ):
     """Получает все школы"""
-    query = session.query(School)
+    query = session.query(School).order_by(School.id.desc())
     return query.limit(limit).all() if limit else query.all()
 
 

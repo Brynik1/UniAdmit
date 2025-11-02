@@ -15,9 +15,8 @@ def execute_all_queries():
         school_repository = SchoolRepository(session)
 
         print("\nПоследние 3 строки таблицы школ:")
-        all_schools = get_schools(session)
-        last_3_schools = all_schools[-3:] if len(all_schools) >= 3 else all_schools
-        for school in last_3_schools:
+        last_3 = get_schools(session, limit=3)
+        for school in last_3[::-1]:
             print(f"   - {school.name}: {school.address}")
 
         print("\n1) Выполнение запроса на добавление новой школы")
@@ -25,10 +24,9 @@ def execute_all_queries():
         new_school_address = "Новый адрес"
         school_repository.create(new_school_name, new_school_address)
 
-        print("Последние 3 строки таблицы школ:")
-        all_schools = get_schools(session)
-        last_3_schools = all_schools[-3:] if len(all_schools) >= 3 else all_schools
-        for school in last_3_schools:
+        print("Последние 3 записи таблицы школ:")
+        last_3 = get_schools(session, limit=3)
+        for school in last_3[::-1]:
             print(f"   - {school.name}: {school.address}")
 
 
@@ -39,17 +37,16 @@ def execute_all_queries():
             address=new_school_address,
             new_address=updated_address
         )
-        print("Последние 3 строки таблицы школ:")
-        all_schools = get_schools(session)
-        last_3_schools = all_schools[-3:] if len(all_schools) >= 3 else all_schools
-        for school in last_3_schools:
+        print("Последние 3 записи таблицы школ:")
+        last_3 = get_schools(session, limit=3)
+        for school in last_3[::-1]:
             print(f"   - {school.name}: {school.address}")
 
 
         print("\n3) Выполнение запроса на удаление новой школы")
         school_repository.delete(name=new_school_name, address=updated_address)
 
-        print("Последние 3 строки таблицы школ:")
+        print("Последние 3 записи таблицы школ:")
         all_schools = get_schools(session)
         last_3_schools = all_schools[-3:] if len(all_schools) >= 3 else all_schools
         for school in last_3_schools:
