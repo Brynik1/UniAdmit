@@ -6,11 +6,15 @@ from database.queries import (
     get_students_sample,
     get_groups_sample,
     get_subjects_sample,
-    get_faculties_count,
-    get_students_count,
-    get_groups_count,
-    get_subjects_count
 )
+
+from database.repositories import (
+    FacultyRepository,
+    AbiturientRepository,
+    StudyGroupRepository,
+    SubjectRepository
+)
+
 from database import db_manager
 
 router = APIRouter(tags=["root"])
@@ -19,6 +23,11 @@ router = APIRouter(tags=["root"])
 @router.get("/")
 async def root_api(db: Session = Depends(db_manager.get_db)):
     """Корневой эндпоинт с информацией о API и примерами запросов"""
+
+    faculty_repo = FacultyRepository(db)
+    abiturient_repo = AbiturientRepository(db)
+    study_group_repo = StudyGroupRepository(db)
+    subject_repo = SubjectRepository(db)
 
     # Получаем примеры данных
     faculties_with_students = get_faculties_with_students(db)
@@ -43,16 +52,16 @@ async def root_api(db: Session = Depends(db_manager.get_db)):
 
     # Статистика
     statistics = {
-        "total_faculties": get_faculties_count(db),
-        "total_students": get_students_count(db),
-        "total_groups": get_groups_count(db),
-        "total_subjects": get_subjects_count(db)
+        "total_faculties": faculty_repo.get_count(),
+        "total_students": abiturient_repo.get_count(),
+        "total_groups": study_group_repo.get_count(),
+        "total_subjects": subject_repo.get_count()
     }
 
     # Примеры доступных данных
     examples = {
         "available_faculties": [f[0] for f in faculties_with_students[:3]],
-        "available_students": [{"last_name": s[0], "first_name": s[1]} for s in students_sample[:3]],
+        "available_students": [f"{s[0]} {s[1]}" for s in students_sample[:3]],
         "available_groups": [g[0] for g in groups_sample[:3]],
         "available_subjects": [s[0] for s in subjects_sample[:3]]
     }

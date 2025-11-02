@@ -12,14 +12,7 @@ from .metadata_queries import (
     get_students_sample,
     get_groups_sample,
     get_subjects_sample,
-    get_faculties_count,
-    get_students_count,
-    get_groups_count,
-    get_subjects_count,
-    get_schools,
-    create_school,
-    update_school,
-    delete_school
+    get_schools
 )
 
 __all__ = [
@@ -33,12 +26,5 @@ __all__ = [
     'get_students_sample',
     'get_groups_sample',
     'get_subjects_sample',
-    'get_faculties_count',
-    'get_students_count',
-    'get_groups_count',
-    'get_subjects_count',
     'get_schools',
-    'create_school',
-    'update_school',
-    'delete_school'
 ]

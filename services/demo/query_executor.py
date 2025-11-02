@@ -2,14 +2,17 @@ from database import db_manager
 from database.queries import (
     get_faculty_students, get_student_grades, get_student_subject_schedule,
     get_group_schedule, get_faculty_rating, get_faculty_avg_grades,
-    create_school, get_schools, update_school, delete_school
+    get_schools
 )
+from database.repositories import SchoolRepository
 
 
 def execute_all_queries():
     """Выполняет все требуемые запросы к базе данных в рамках одной сессии"""
 
     with db_manager.get_session() as session:
+
+        school_repository = SchoolRepository(session)
 
         print("\nПоследние 3 строки таблицы школ:")
         all_schools = get_schools(session)
@@ -20,7 +23,7 @@ def execute_all_queries():
         print("\n1) Выполнение запроса на добавление новой школы")
         new_school_name = "Новая школа №5"
         new_school_address = "Новый адрес"
-        create_school(new_school_name, new_school_address, session)
+        school_repository.create(new_school_name, new_school_address)
 
         print("Последние 3 строки таблицы школ:")
         all_schools = get_schools(session)
@@ -31,8 +34,7 @@ def execute_all_queries():
 
         print("\n2) Выполнение запроса на обновление адреса новой школы")
         updated_address = "Обновленный адрес"
-        update_school(
-            session=session,
+        school_repository.update(
             name=new_school_name,
             address=new_school_address,
             new_address=updated_address
@@ -45,11 +47,7 @@ def execute_all_queries():
 
 
         print("\n3) Выполнение запроса на удаление новой школы")
-        delete_school(
-            session=session,
-            name=new_school_name,
-            address=updated_address
-        )
+        school_repository.delete(name=new_school_name, address=updated_address)
 
         print("Последние 3 строки таблицы школ:")
         all_schools = get_schools(session)
@@ -93,3 +91,5 @@ def execute_all_queries():
         faculty_avg_grades = get_faculty_avg_grades('Факультет компьютерных технологий', session)
         for subject in faculty_avg_grades:
             print(f"   - {subject.Предмет}: {subject.Средний_балл}")
+
+        print()

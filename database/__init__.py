@@ -17,11 +17,6 @@ from .queries import (
     get_students_sample,
     get_groups_sample,
     get_subjects_sample,
-    get_faculties_count,
-    get_students_count,
-    get_groups_count,
-    get_subjects_count,
-    create_school
 )
 
 from .repositories import (
@@ -54,11 +49,6 @@ __all__ = [
     'get_students_sample',
     'get_groups_sample',
     'get_subjects_sample',
-    'get_faculties_count',
-    'get_students_count',
-    'get_groups_count',
-    'get_subjects_count',
-    'create_school',
 
     # Repositories
     'FacultyRepository',
