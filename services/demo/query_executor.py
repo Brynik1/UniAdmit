@@ -1,10 +1,6 @@
 from database import db_manager
-from database.queries import (
-    get_faculty_students, get_student_grades, get_student_subject_schedule,
-    get_group_schedule, get_faculty_rating, get_faculty_avg_grades,
-    get_schools
-)
-from database.repositories import SchoolRepository
+from database.queries import get_schools
+from database.repositories import MainRepository
 
 
 def execute_all_queries():
@@ -12,7 +8,7 @@ def execute_all_queries():
 
     with db_manager.get_session() as session:
 
-        school_repository = SchoolRepository(session)
+        repo = MainRepository(session)
 
         print("\nПоследние 3 строки таблицы школ:")
         last_3 = get_schools(session, limit=3)
@@ -22,7 +18,7 @@ def execute_all_queries():
         print("\n1) Выполнение запроса на добавление новой школы")
         new_school_name = "Новая школа №5"
         new_school_address = "Новый адрес"
-        school_repository.create(new_school_name, new_school_address)
+        repo.school.create(new_school_name, new_school_address)
 
         print("Последние 3 записи таблицы школ:")
         last_3 = get_schools(session, limit=3)
@@ -32,7 +28,7 @@ def execute_all_queries():
 
         print("\n2) Выполнение запроса на обновление адреса новой школы")
         updated_address = "Обновленный адрес"
-        school_repository.update(
+        repo.school.update(
             name=new_school_name,
             address=new_school_address,
             new_address=updated_address
@@ -44,7 +40,7 @@ def execute_all_queries():
 
 
         print("\n3) Выполнение запроса на удаление новой школы")
-        school_repository.delete(name=new_school_name, address=updated_address)
+        repo.school.delete(name=new_school_name, address=updated_address)
 
         print("Последние 3 записи таблицы школ:")
         all_schools = get_schools(session)
@@ -55,37 +51,37 @@ def execute_all_queries():
 
         print("\n4) Абитуриенты факультета компьютерных технологий:")
         faculty_name = 'Факультет компьютерных технологий'
-        faculty_students = get_faculty_students(faculty_name, session)
+        faculty_students = repo.get_faculty_students(faculty_name)
         for student in faculty_students:
             print(f"   - {student.Фамилия} {student.Имя} {student.Отчество or ''}: "
                   f"{student.Кафедра} ({'Зачислен' if student.Зачислен == 'Да' else 'Не зачислен'})")
 
         print("\n5) Оценки абитуриента Иванов Алексей:")
-        student_grades = get_student_grades('Иванов', 'Алексей', session)
+        student_grades = repo.get_student_grades('Иванов', 'Алексей')
         for grade in student_grades:
             print(f"   - {grade.Предмет}: {grade.Оценка} баллов "
                   f"({grade.Дата_экзамена}) {'[Апелляция]' if grade.Апелляция == 'Да' else ''}")
 
         print("\n6) Расписание по математике для Иванова Алексея:")
-        student_schedule = get_student_subject_schedule('Иванов', 'Алексей', 'Математика', session)
+        student_schedule = repo.get_student_subject_schedule('Иванов', 'Алексей', 'Математика')
         for schedule in student_schedule:
             print(f"   - {schedule.Дата}: {schedule.Тип} по {schedule.Предмет} "
                   f"в {schedule.Аудитория}")
 
         print("\n7) Расписание экзаменов для группы ПИ-101:")
-        group_schedule = get_group_schedule('ПИ-101', session)
+        group_schedule = repo.get_group_schedule('ПИ-101')
         for schedule in group_schedule:
             print(f"   - {schedule.Дата}: {schedule.Тип} по {schedule.Предмет} "
                   f"в {schedule.Аудитория}")
 
         print("\n8) Рейтинг абитуриентов факультета компьютерных технологий:")
-        faculty_rating = get_faculty_rating('Факультет компьютерных технологий', session)
+        faculty_rating = repo.get_faculty_rating('Факультет компьютерных технологий')
         for i, student in enumerate(faculty_rating, 1):
             print(f"   - {i}. {student.Фамилия} {student.Имя}: {student.Сумма_баллов} баллов "
                   f"({student.Медаль} медаль)")
 
         print("\n9) Средний балл по предметам на факультете компьютерных технологий:")
-        faculty_avg_grades = get_faculty_avg_grades('Факультет компьютерных технологий', session)
+        faculty_avg_grades = repo.get_faculty_avg_grades('Факультет компьютерных технологий')
         for subject in faculty_avg_grades:
             print(f"   - {subject.Предмет}: {subject.Средний_балл}")
 
