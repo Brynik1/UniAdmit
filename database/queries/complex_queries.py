@@ -3,7 +3,7 @@ from database.models import (
     Subject, ExamRecord, ExamSchedule, StudyGroup,
     ExaminationList, Stream, StreamGroup, MedalType, ExamType
 )
-from sqlalchemy import func, case
+from sqlalchemy import func, case, literal
 from sqlalchemy.orm import Session
 
 
@@ -114,16 +114,15 @@ def get_group_schedule(
         ExamSchedule.record_date.label("Дата"),
         ExamSchedule.classroom.label("Аудитория"),
         Subject.name.label("Предмет"),
-        case(
-            (ExamSchedule.exam_type == ExamType.CONSULTATION, "Консультация"),
-            (ExamSchedule.exam_type == ExamType.EXAM, "Экзамен"),
-            else_="Неизвестно"
-        ).label("Тип")
+        literal("Экзамен").label("Тип")
     ).join(Subject, ExamSchedule.subject_id == Subject.id) \
         .join(Stream, ExamSchedule.stream_id == Stream.id) \
         .join(StreamGroup, Stream.id == StreamGroup.stream_id) \
         .join(StudyGroup, StreamGroup.group_id == StudyGroup.id) \
-        .filter(StudyGroup.name == group_name)
+        .filter(
+            StudyGroup.name == group_name,
+            ExamSchedule.exam_type == ExamType.EXAM
+        )
 
     if sort:
         query = query.order_by(

@@ -19,6 +19,7 @@ class FacultyRepository:
 
     def bulk_create(self, faculties_data):
         self.session.bulk_insert_mappings(class_mapper(Faculty), faculties_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(Faculty).count()
@@ -35,6 +36,7 @@ class DepartmentRepository:
 
     def bulk_create(self, departments_data):
         self.session.bulk_insert_mappings(class_mapper(Department), departments_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(Department).count()
@@ -51,6 +53,7 @@ class SchoolRepository:
 
     def bulk_create(self, schools_data):
         self.session.bulk_insert_mappings(class_mapper(School), schools_data)
+        self.session.flush()
 
     def update(self, name: str, address: str, new_name: str = None, new_address: str = None):
         school = self.session.query(School).filter(
@@ -64,7 +67,7 @@ class SchoolRepository:
             if new_address is not None:
                 school.address = new_address
 
-            self.session.commit()
+            self.session.flush()
             return True
 
         return False
@@ -97,6 +100,7 @@ class SubjectRepository:
 
     def bulk_create(self, subjects_data):
         self.session.bulk_insert_mappings(class_mapper(Subject), subjects_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(Subject).count()
@@ -113,6 +117,7 @@ class StudyGroupRepository:
 
     def bulk_create(self, groups_data):
         self.session.bulk_insert_mappings(class_mapper(StudyGroup), groups_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(StudyGroup).count()
@@ -129,6 +134,7 @@ class ExaminationListRepository:
 
     def bulk_create(self, exam_lists_data):
         self.session.bulk_insert_mappings(class_mapper(ExaminationList), exam_lists_data)
+        self.session.flush()
 
 
 class StreamRepository:
@@ -142,6 +148,7 @@ class StreamRepository:
 
     def bulk_create(self, streams_data):
         self.session.bulk_insert_mappings(class_mapper(Stream), streams_data)
+        self.session.flush()
 
 
 class AbiturientRepository:
@@ -186,6 +193,7 @@ class AbiturientRepository:
 
     def bulk_create(self, abiturients_data):
         self.session.bulk_insert_mappings(class_mapper(Abiturient), abiturients_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(Abiturient).count()
@@ -215,6 +223,7 @@ class ExamRecordRepository:
 
     def bulk_create(self, exam_records_data):
         self.session.bulk_insert_mappings(class_mapper(ExamRecord), exam_records_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(ExamRecord).count()
@@ -231,6 +240,7 @@ class StreamGroupRepository:
 
     def bulk_create(self, stream_groups_data):
         self.session.bulk_insert_mappings(class_mapper(StreamGroup), stream_groups_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(StudyGroup).count()
@@ -260,6 +270,7 @@ class ExamScheduleRepository:
 
     def bulk_create(self, exam_schedules_data):
         self.session.bulk_insert_mappings(class_mapper(ExamSchedule), exam_schedules_data)
+        self.session.flush()
 
     def get_count(self):
         return self.session.query(ExamSchedule).count()
