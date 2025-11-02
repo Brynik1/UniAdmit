@@ -35,13 +35,10 @@ def get_subjects_sample(session):
         .all()
 
 
-def get_schools(
-        session,
-        limit: int = None
-):
+def get_schools(session, limit: int = None):
     """Получает все школы"""
-    query = session.query(School).order_by(School.id.desc())
-    return query.limit(limit).all() if limit else query.all()
+    query = session.query(School)
+    return query.order_by(School.id.desc()).limit(limit).all() if limit else query.all()
 
 
 
