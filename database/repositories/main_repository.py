@@ -5,7 +5,7 @@ from .repositories import (
     StreamRepository, AbiturientRepository, ExamRecordRepository,
     StreamGroupRepository, ExamScheduleRepository
 )
-from ..queries import (
+from database.queries import (
     get_faculty_students, get_student_grades, get_student_subject_schedule,
     get_group_schedule, get_faculty_rating, get_faculty_avg_grades,
     get_faculties_with_students, get_students_sample, get_groups_sample,
@@ -35,7 +35,8 @@ class MainRepository:
         self.stream_group = StreamGroupRepository(session)
         self.exam_schedule = ExamScheduleRepository(session)
 
-    # Методы для работы с запросами из папки queries
+
+    # Complex queries
 
     def get_faculty_students(self, faculty_name: str, **kwargs):
         return get_faculty_students(faculty_name, self.session, **kwargs)
@@ -54,6 +55,9 @@ class MainRepository:
 
     def get_faculty_avg_grades(self, faculty_name: str, **kwargs):
         return get_faculty_avg_grades(faculty_name, self.session, **kwargs)
+
+
+    # Metadata queries
 
     def get_faculties_with_students(self):
         return get_faculties_with_students(self.session)

@@ -1,11 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from database.queries import (
-    get_student_grades,
-    get_student_subject_schedule
-)
-from database import db_manager
+from database import db_manager, MainRepository
 
 router = APIRouter(prefix="/student", tags=["students"])
 
@@ -18,7 +14,8 @@ async def get_student_grades_api(
 ):
     """Получить все оценки абитуриента"""
     try:
-        results = get_student_grades(last_name, first_name, db)
+        repo = MainRepository(db)
+        results = repo.get_student_grades(last_name, first_name)
 
         if not results:
             raise HTTPException(
@@ -54,7 +51,8 @@ async def get_student_subject_schedule_api(
 ):
     """Получить расписание консультаций и экзаменов для абитуриента по предмету"""
     try:
-        results = get_student_subject_schedule(last_name, first_name, subject_name, db)
+        repo = MainRepository(db)
+        results = repo.get_student_subject_schedule(last_name, first_name, subject_name)
 
         if not results:
             raise HTTPException(

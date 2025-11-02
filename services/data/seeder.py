@@ -1,9 +1,7 @@
-from database import db_manager
+from database import db_manager, MainRepository
 from .generators.sample_data import generate_sample_data
 from .generators.bulk_data import generate_bulk_data
 from core import config
-
-from database.repositories import MainRepository
 
 
 class Seeder:

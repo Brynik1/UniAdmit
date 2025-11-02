@@ -1,6 +1,4 @@
-from database import db_manager
-from database.queries import get_schools
-from database.repositories import MainRepository
+from database import db_manager, MainRepository
 
 
 def execute_all_queries():
@@ -11,7 +9,7 @@ def execute_all_queries():
         repo = MainRepository(session)
 
         print("\nПоследние 3 строки таблицы школ:")
-        last_3 = get_schools(session, limit=3)
+        last_3 = repo.get_schools(limit=3)
         for school in last_3[::-1]:
             print(f"   - {school.name}: {school.address}")
 
@@ -21,7 +19,7 @@ def execute_all_queries():
         repo.school.create(new_school_name, new_school_address)
 
         print("Последние 3 записи таблицы школ:")
-        last_3 = get_schools(session, limit=3)
+        last_3 = repo.get_schools(limit=3)
         for school in last_3[::-1]:
             print(f"   - {school.name}: {school.address}")
 
@@ -34,7 +32,7 @@ def execute_all_queries():
             new_address=updated_address
         )
         print("Последние 3 записи таблицы школ:")
-        last_3 = get_schools(session, limit=3)
+        last_3 = repo.get_schools(limit=3)
         for school in last_3[::-1]:
             print(f"   - {school.name}: {school.address}")
 
@@ -43,9 +41,8 @@ def execute_all_queries():
         repo.school.delete(name=new_school_name, address=updated_address)
 
         print("Последние 3 записи таблицы школ:")
-        all_schools = get_schools(session)
-        last_3_schools = all_schools[-3:] if len(all_schools) >= 3 else all_schools
-        for school in last_3_schools:
+        last_3 = repo.get_schools(limit=3)
+        for school in last_3:
             print(f"   - {school.name}: {school.address}")
 
 

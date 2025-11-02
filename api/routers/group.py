@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from database.queries import get_group_schedule
-from database import db_manager
+from database import db_manager, MainRepository
 
 router = APIRouter(prefix="/group", tags=["groups"])
 
@@ -14,7 +13,8 @@ async def get_group_schedule_api(
 ):
     """Получить расписание экзаменов для учебной группы"""
     try:
-        results = get_group_schedule(group_name, db)
+        repo = MainRepository(db)
+        results = repo.get_group_schedule(group_name)
 
         if not results:
             raise HTTPException(

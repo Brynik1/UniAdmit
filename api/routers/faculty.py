@@ -1,12 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from database.queries import (
-    get_faculty_students,
-    get_faculty_rating,
-    get_faculty_avg_grades
-)
-from database import db_manager
+from database import db_manager, MainRepository
 
 router = APIRouter(prefix="/faculty", tags=["faculties"])
 
@@ -18,7 +13,8 @@ async def get_faculty_students_api(
 ):
     """Получить всех абитуриентов указанного факультета"""
     try:
-        results = get_faculty_students(faculty_name, db)
+        repo = MainRepository(db)
+        results = repo.get_faculty_students(faculty_name)
 
         if not results:
             raise HTTPException(
@@ -54,7 +50,8 @@ async def get_faculty_rating_api(
 ):
     """Получить рейтинг абитуриентов факультета по сумме баллов"""
     try:
-        results = get_faculty_rating(faculty_name, db)
+        repo = MainRepository(db)
+        results = repo.get_faculty_rating(faculty_name)
 
         if not results:
             raise HTTPException(
@@ -89,7 +86,8 @@ async def get_faculty_avg_grades_api(
 ):
     """Получить средний балл по предметам на факультете"""
     try:
-        results = get_faculty_avg_grades(faculty_name, db)
+        repo = MainRepository(db)
+        results = repo.get_faculty_avg_grades(faculty_name)
 
         if not results:
             raise HTTPException(

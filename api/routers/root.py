@@ -1,21 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.queries import (
-    get_faculties_with_students,
-    get_students_sample,
-    get_groups_sample,
-    get_subjects_sample,
-)
-
-from database.repositories import (
-    FacultyRepository,
-    AbiturientRepository,
-    StudyGroupRepository,
-    SubjectRepository
-)
-
-from database import db_manager
+from database import db_manager, MainRepository
 
 router = APIRouter(tags=["root"])
 
@@ -24,16 +10,13 @@ router = APIRouter(tags=["root"])
 async def root_api(db: Session = Depends(db_manager.get_db)):
     """Корневой эндпоинт с информацией о API и примерами запросов"""
 
-    faculty_repo = FacultyRepository(db)
-    abiturient_repo = AbiturientRepository(db)
-    study_group_repo = StudyGroupRepository(db)
-    subject_repo = SubjectRepository(db)
+    repo = MainRepository(db)
 
     # Получаем примеры данных
-    faculties_with_students = get_faculties_with_students(db)
-    students_sample = get_students_sample(db)
-    groups_sample = get_groups_sample(db)
-    subjects_sample = get_subjects_sample(db)
+    faculties_with_students = repo.get_faculties_with_students()
+    students_sample = repo.get_students_sample()
+    groups_sample = repo.get_groups_sample()
+    subjects_sample = repo.get_subjects_sample()
 
     # Генерируем динамические примеры URL на основе реальных данных
     faculty_example = faculties_with_students[0][0] if faculties_with_students else "Факультет компьютерных технологий"
@@ -52,10 +35,10 @@ async def root_api(db: Session = Depends(db_manager.get_db)):
 
     # Статистика
     statistics = {
-        "total_faculties": faculty_repo.get_count(),
-        "total_students": abiturient_repo.get_count(),
-        "total_groups": study_group_repo.get_count(),
-        "total_subjects": subject_repo.get_count()
+        "total_faculties": repo.faculty.get_count(),
+        "total_students": repo.abiturient.get_count(),
+        "total_groups": repo.study_group.get_count(),
+        "total_subjects": repo.subject.get_count()
     }
 
     # Примеры доступных данных

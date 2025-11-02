@@ -3,23 +3,11 @@ from time import perf_counter
 import matplotlib.pyplot as plt
 
 from core import config
-from database import db_manager
-from database.queries import (
-    get_faculty_students,
-    get_student_grades,
-    get_student_subject_schedule,
-    get_group_schedule,
-    get_faculty_rating,
-    get_faculty_avg_grades,
-    get_faculties_with_students,
-    get_students_sample,
-    get_groups_sample,
-    get_subjects_sample
-)
+from database import db_manager, MainRepository
 from services.data import seeder
 
 # Конфигурация тестирования
-TEST_SIZES = [100, 5000, 10000, 50000, 100000, 500000, 1000000]
+TEST_SIZES = [100, 5000, 10000]
 ITERATIONS = 3
 LIMIT = 5
 SORT = True
@@ -55,32 +43,35 @@ def get_test_data():
     test_data = {}
 
     with db_manager.get_session() as session:
+        repo = MainRepository(session)
 
-        faculties = get_faculties_with_students(session)
+        faculties = repo.get_faculties_with_students()
         test_data['faculties'] = [f[0] for f in faculties[:5]] if faculties else ["Факультет компьютерных технологий"]
 
-        students = get_students_sample(session)
+        students = repo.get_students_sample()
         test_data['students'] = [{'last_name': s[0], 'first_name': s[1]} for s in students[:5]] if students else [
             {'last_name': 'Иванов', 'first_name': 'Алексей'}]
 
-        groups = get_groups_sample(session)
+        groups = repo.get_groups_sample()
         test_data['groups'] = [g[0] for g in groups[:5]] if groups else ["ПИ-101"]
 
-        subjects = get_subjects_sample(session)
+        subjects = repo.get_subjects_sample()
         test_data['subjects'] = [s[0] for s in subjects[:5]] if subjects else ["Математика"]
 
     return test_data
 
 
-def measure_query_time(query_func, *args, iterations=ITERATIONS, **kwargs):
-    """Измеряет время выполнения запроса"""
+def measure_query_time(repo_method, *args, iterations=ITERATIONS, **kwargs):
+    """Измеряет время выполнения запроса через MainRepository"""
     times = []
 
     for _ in range(iterations):
         start_time = perf_counter()
 
         with db_manager.get_session() as session:
-            query_func(*args, session, **kwargs)
+            repo = MainRepository(session)
+            method = getattr(repo, repo_method)
+            method(*args, **kwargs)
 
         execution_time = (perf_counter() - start_time) * 1000  # мс
         times.append(execution_time)
@@ -93,13 +84,13 @@ def run_query_tests(size, test_data):
     queries = [
         {
             'name': 'Абитуриенты факультета',
-            'func': get_faculty_students,
+            'method': 'get_faculty_students',
             'args': [test_data['faculties'][0]],
             'kwargs': {'sort': SORT, 'limit': LIMIT}
         },
         {
             'name': 'Оценки студента',
-            'func': get_student_grades,
+            'method': 'get_student_grades',
             'args': [
                 test_data['students'][0]['last_name'],
                 test_data['students'][0]['first_name']
@@ -108,7 +99,7 @@ def run_query_tests(size, test_data):
         },
         {
             'name': 'Расписание студента по предмету',
-            'func': get_student_subject_schedule,
+            'method': 'get_student_subject_schedule',
             'args': [
                 test_data['students'][0]['last_name'],
                 test_data['students'][0]['first_name'],
@@ -118,19 +109,19 @@ def run_query_tests(size, test_data):
         },
         {
             'name': 'Расписание группы',
-            'func': get_group_schedule,
+            'method': 'get_group_schedule',
             'args': [test_data['groups'][0]],
             'kwargs': {'sort': SORT, 'limit': LIMIT}
         },
         {
             'name': 'Рейтинг факультета',
-            'func': get_faculty_rating,
+            'method': 'get_faculty_rating',
             'args': [test_data['faculties'][0]],
             'kwargs': {'sort': SORT, 'limit': LIMIT}
         },
         {
             'name': 'Средние оценки факультета',
-            'func': get_faculty_avg_grades,
+            'method': 'get_faculty_avg_grades',
             'args': [test_data['faculties'][0]],
             'kwargs': {'sort': SORT, 'limit': LIMIT}
         }
@@ -138,7 +129,7 @@ def run_query_tests(size, test_data):
 
     for query in queries:
         try:
-            result = measure_query_time(query['func'], *query['args'], **query['kwargs'])
+            result = measure_query_time(query['method'], *query['args'], **query['kwargs'])
 
             benchmark_results.append({
                 'size': size,
@@ -232,7 +223,6 @@ def plot_performance_charts():
 
     plt.tight_layout()
     plt.show()
-
 
 
 def main():
