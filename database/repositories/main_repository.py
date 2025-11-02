@@ -38,23 +38,23 @@ class MainRepository:
 
     # Complex queries
 
-    def get_faculty_students(self, faculty_name: str, **kwargs):
-        return get_faculty_students(faculty_name, self.session, **kwargs)
+    def get_faculty_students(self, faculty_name, sort=False, limit=None):
+        return get_faculty_students(faculty_name, self.session, sort, limit)
 
-    def get_student_grades(self, last_name: str, first_name: str, **kwargs):
-        return get_student_grades(last_name, first_name, self.session, **kwargs)
+    def get_student_grades(self, last_name, first_name, sort=False, limit=None):
+        return get_student_grades(last_name, first_name, self.session, sort, limit)
 
-    def get_student_subject_schedule(self, last_name: str, first_name: str, subject_name: str, **kwargs):
-        return get_student_subject_schedule(last_name, first_name, subject_name, self.session, **kwargs)
+    def get_student_subject_schedule(self, last_name, first_name: str, subject_name: str, sort=False, limit=None):
+        return get_student_subject_schedule(last_name, first_name, subject_name, self.session, sort, limit)
 
-    def get_group_schedule(self, group_name: str, **kwargs):
-        return get_group_schedule(group_name, self.session, **kwargs)
+    def get_group_schedule(self, group_name, sort=False, limit=None):
+        return get_group_schedule(group_name, self.session, sort, limit)
 
-    def get_faculty_rating(self, faculty_name: str, **kwargs):
-        return get_faculty_rating(faculty_name, self.session, **kwargs)
+    def get_faculty_rating(self, faculty_name, sort=False, limit=None):
+        return get_faculty_rating(faculty_name, self.session, sort, limit)
 
-    def get_faculty_avg_grades(self, faculty_name: str, **kwargs):
-        return get_faculty_avg_grades(faculty_name, self.session, **kwargs)
+    def get_faculty_avg_grades(self, faculty_name, sort=False, limit=None):
+        return get_faculty_avg_grades(faculty_name, self.session, sort, limit)
 
 
     # Metadata queries
