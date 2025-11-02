@@ -69,17 +69,3 @@ class MainRepository:
 
     def get_schools(self, limit: int = None):
         return get_schools(self.session, limit)
-
-    # Универсальные методы для транзакций
-
-    def commit(self):
-        """Фиксация изменений"""
-        self.session.commit()
-
-    def rollback(self):
-        """Откат изменений"""
-        self.session.rollback()
-
-    def close(self):
-        """Закрытие сессии"""
-        self.session.close()
