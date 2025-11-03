@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends
 
 from database import MainRepository
-from api.di import get_main_repository
+from core.dependencies import get_repo
 
 router = APIRouter(tags=["root"])
 
 
 @router.get("/")
-async def root_api(repo: MainRepository = Depends(get_main_repository)):
+async def root_api(repo: MainRepository = Depends(get_repo)):
     """Корневой эндпоинт с информацией о API и примерами запросов"""
 
     # Получаем примеры данных
