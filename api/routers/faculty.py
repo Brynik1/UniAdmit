@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 
-from database import db_manager, MainRepository
+from database import MainRepository
+from api.dependencies import get_main_repository
 
 router = APIRouter(prefix="/faculty", tags=["faculties"])
 
@@ -9,11 +9,10 @@ router = APIRouter(prefix="/faculty", tags=["faculties"])
 @router.get("/{faculty_name}/abiturients")
 async def get_faculty_students_api(
     faculty_name: str,
-    db: Session = Depends(db_manager.get_db)
+    repo: MainRepository = Depends(get_main_repository)
 ):
     """Получить всех абитуриентов указанного факультета"""
     try:
-        repo = MainRepository(db)
         results = repo.get_faculty_students(faculty_name)
 
         if not results:
@@ -46,11 +45,10 @@ async def get_faculty_students_api(
 @router.get("/{faculty_name}/rating")
 async def get_faculty_rating_api(
     faculty_name: str,
-    db: Session = Depends(db_manager.get_db)
+    repo: MainRepository = Depends(get_main_repository)
 ):
     """Получить рейтинг абитуриентов факультета по сумме баллов"""
     try:
-        repo = MainRepository(db)
         results = repo.get_faculty_rating(faculty_name)
 
         if not results:
@@ -82,11 +80,10 @@ async def get_faculty_rating_api(
 @router.get("/{faculty_name}/avg-grades")
 async def get_faculty_avg_grades_api(
     faculty_name: str,
-    db: Session = Depends(db_manager.get_db)
+    repo: MainRepository = Depends(get_main_repository)
 ):
     """Получить средний балл по предметам на факультете"""
     try:
-        repo = MainRepository(db)
         results = repo.get_faculty_avg_grades(faculty_name)
 
         if not results:

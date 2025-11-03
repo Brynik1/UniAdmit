@@ -1,16 +1,14 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
 
-from database import db_manager, MainRepository
+from database import MainRepository
+from api.dependencies import get_main_repository
 
 router = APIRouter(tags=["root"])
 
 
 @router.get("/")
-async def root_api(db: Session = Depends(db_manager.get_db)):
+async def root_api(repo: MainRepository = Depends(get_main_repository)):
     """Корневой эндпоинт с информацией о API и примерами запросов"""
-
-    repo = MainRepository(db)
 
     # Получаем примеры данных
     faculties_with_students = repo.get_faculties_with_students()

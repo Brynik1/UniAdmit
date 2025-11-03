@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 
-from database import db_manager, MainRepository
+from database import MainRepository
+from api.dependencies import get_main_repository
 
 router = APIRouter(prefix="/student", tags=["students"])
 
@@ -10,11 +10,10 @@ router = APIRouter(prefix="/student", tags=["students"])
 async def get_student_grades_api(
     last_name: str,
     first_name: str,
-    db: Session = Depends(db_manager.get_db)
+    repo: MainRepository = Depends(get_main_repository)
 ):
     """Получить все оценки абитуриента"""
     try:
-        repo = MainRepository(db)
         results = repo.get_student_grades(last_name, first_name)
 
         if not results:
@@ -47,11 +46,10 @@ async def get_student_subject_schedule_api(
     last_name: str,
     first_name: str,
     subject_name: str,
-    db: Session = Depends(db_manager.get_db)
+    repo: MainRepository = Depends(get_main_repository)
 ):
     """Получить расписание консультаций и экзаменов для абитуриента по предмету"""
     try:
-        repo = MainRepository(db)
         results = repo.get_student_subject_schedule(last_name, first_name, subject_name)
 
         if not results:

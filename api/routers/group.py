@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 
-from database import db_manager, MainRepository
+from database import MainRepository
+from api.dependencies import get_main_repository
 
 router = APIRouter(prefix="/group", tags=["groups"])
 
@@ -9,11 +9,10 @@ router = APIRouter(prefix="/group", tags=["groups"])
 @router.get("/{group_name}/schedule")
 async def get_group_schedule_api(
     group_name: str,
-    db: Session = Depends(db_manager.get_db)
+    repo: MainRepository = Depends(get_main_repository)
 ):
     """Получить расписание экзаменов для учебной группы"""
     try:
-        repo = MainRepository(db)
         results = repo.get_group_schedule(group_name)
 
         if not results:
