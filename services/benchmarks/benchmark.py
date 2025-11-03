@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from core import config
 from database import db_manager, MainRepository
 from services.data import seeder
-from services.dependencies import get_main_repository
+from services.db_context import get_main_repository
 
 # Конфигурация тестирования
 TEST_SIZES = [100, 5000, 10000]

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from database import MainRepository
-from api.dependencies import get_main_repository
+from api.di import get_main_repository
 
 router = APIRouter(prefix="/faculty", tags=["faculties"])
 

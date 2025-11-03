@@ -1,5 +1,5 @@
 from database import db_manager, MainRepository
-from services.dependencies import get_main_repository
+from services.db_context import get_main_repository
 
 
 def execute_all_queries():

@@ -1,4 +1,4 @@
-from services.dependencies import get_main_repository
+from services.db_context import get_main_repository
 from .generators.sample_data import generate_sample_data
 from .generators.bulk_data import generate_bulk_data
 from core import config
