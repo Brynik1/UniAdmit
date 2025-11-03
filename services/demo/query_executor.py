@@ -1,12 +1,11 @@
 from database import db_manager, MainRepository
+from services.dependencies import get_main_repository
 
 
 def execute_all_queries():
     """Выполняет все требуемые запросы к базе данных в рамках одной сессии"""
 
-    with db_manager.get_session() as session:
-
-        repo = MainRepository(session)
+    with get_main_repository() as repo:
 
         print("\nПоследние 3 строки таблицы школ:")
         last_3 = repo.get_schools(limit=3)

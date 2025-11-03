@@ -1,10 +1,10 @@
 from time import perf_counter
-
 import matplotlib.pyplot as plt
 
 from core import config
 from database import db_manager, MainRepository
 from services.data import seeder
+from services.dependencies import get_main_repository
 
 # Конфигурация тестирования
 TEST_SIZES = [100, 5000, 10000]
@@ -42,8 +42,7 @@ def get_test_data():
     """Получает реальные данные из БД для использования в тестах"""
     test_data = {}
 
-    with db_manager.get_session() as session:
-        repo = MainRepository(session)
+    with get_main_repository() as repo:
 
         faculties = repo.get_faculties_with_students()
         test_data['faculties'] = [f[0] for f in faculties[:5]] if faculties else ["Факультет компьютерных технологий"]

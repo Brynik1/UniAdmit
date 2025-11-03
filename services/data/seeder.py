@@ -1,4 +1,4 @@
-from database import db_manager, MainRepository
+from services.dependencies import get_main_repository
 from .generators.sample_data import generate_sample_data
 from .generators.bulk_data import generate_bulk_data
 from core import config
@@ -25,8 +25,7 @@ class Seeder:
                 batch_size=self.data_config.batch_size
             )
 
-        with db_manager.get_session() as session:
-            repo = MainRepository(session)
+        with get_main_repository() as repo:
 
             for (table_name, data) in data_generator:
 
