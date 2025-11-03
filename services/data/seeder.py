@@ -1,4 +1,4 @@
-from core.dependencies import context_repo
+from services.context_db import get_repository
 from .generators.sample_data import generate_sample_data
 from .generators.bulk_data import generate_bulk_data
 from core import config
@@ -25,7 +25,7 @@ class Seeder:
                 batch_size=self.data_config.batch_size
             )
 
-        with context_repo() as repo:
+        with get_repository() as repo:
 
             for (table_name, data) in data_generator:
 

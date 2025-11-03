@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from core import config
 from database import db_manager, MainRepository
 from services.data import seeder
-from core.dependencies import context_repo
+from services.context_db import get_repository
 
 # Конфигурация тестирования
 TEST_SIZES = [100, 5000, 10000]
@@ -42,7 +42,7 @@ def get_test_data():
     """Получает реальные данные из БД для использования в тестах"""
     test_data = {}
 
-    with context_repo() as repo:
+    with get_repository() as repo:
 
         faculties = repo.get_faculties_with_students()
         test_data['faculties'] = [f[0] for f in faculties[:5]] if faculties else ["Факультет компьютерных технологий"]

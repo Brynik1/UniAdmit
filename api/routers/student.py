@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from database import MainRepository
-from core.dependencies import get_repo
+from api.di import get_repository
 
 router = APIRouter(prefix="/student", tags=["students"])
 
@@ -10,7 +10,7 @@ router = APIRouter(prefix="/student", tags=["students"])
 async def get_student_grades_api(
     last_name: str,
     first_name: str,
-    repo: MainRepository = Depends(get_repo)
+    repo: MainRepository = Depends(get_repository)
 ):
     """Получить все оценки абитуриента"""
     try:
@@ -46,7 +46,7 @@ async def get_student_subject_schedule_api(
     last_name: str,
     first_name: str,
     subject_name: str,
-    repo: MainRepository = Depends(get_repo)
+    repo: MainRepository = Depends(get_repository)
 ):
     """Получить расписание консультаций и экзаменов для абитуриента по предмету"""
     try:

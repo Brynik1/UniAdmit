@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from database import MainRepository
-from core.dependencies import get_repo
+from api.di import get_repository
 
 router = APIRouter(prefix="/faculty", tags=["faculties"])
 
@@ -9,7 +9,7 @@ router = APIRouter(prefix="/faculty", tags=["faculties"])
 @router.get("/{faculty_name}/abiturients")
 async def get_faculty_students_api(
     faculty_name: str,
-    repo: MainRepository = Depends(get_repo)
+    repo: MainRepository = Depends(get_repository)
 ):
     """Получить всех абитуриентов указанного факультета"""
     try:
@@ -45,7 +45,7 @@ async def get_faculty_students_api(
 @router.get("/{faculty_name}/rating")
 async def get_faculty_rating_api(
     faculty_name: str,
-    repo: MainRepository = Depends(get_repo)
+    repo: MainRepository = Depends(get_repository)
 ):
     """Получить рейтинг абитуриентов факультета по сумме баллов"""
     try:
@@ -80,7 +80,7 @@ async def get_faculty_rating_api(
 @router.get("/{faculty_name}/avg-grades")
 async def get_faculty_avg_grades_api(
     faculty_name: str,
-    repo: MainRepository = Depends(get_repo)
+    repo: MainRepository = Depends(get_repository)
 ):
     """Получить средний балл по предметам на факультете"""
     try:

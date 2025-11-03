@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from database import MainRepository
-from core.dependencies import get_repo
+from api.di import get_repository
 
 router = APIRouter(prefix="/group", tags=["groups"])
 
@@ -9,7 +9,7 @@ router = APIRouter(prefix="/group", tags=["groups"])
 @router.get("/{group_name}/schedule")
 async def get_group_schedule_api(
     group_name: str,
-    repo: MainRepository = Depends(get_repo)
+    repo: MainRepository = Depends(get_repository)
 ):
     """Получить расписание экзаменов для учебной группы"""
     try:

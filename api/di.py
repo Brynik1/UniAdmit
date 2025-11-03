@@ -4,5 +4,5 @@ from fastapi import Depends
 from database import db_manager, MainRepository
 
 
-def get_main_repository(db: Session = Depends(db_manager.get_db)) -> MainRepository:
+def get_repository(db: Session = Depends(db_manager.get_db)) -> MainRepository:
     return MainRepository(db)

@@ -3,7 +3,7 @@ from database import db_manager, MainRepository
 
 
 @contextmanager
-def get_main_repository():
+def get_repository():
     """
     Контекстный менеджер для получения репозитория
     """

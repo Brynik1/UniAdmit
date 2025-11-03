@@ -1,10 +1,10 @@
-from core.dependencies import context_repo
+from services.context_db import get_repository
 
 
 def execute_all_queries():
     """Выполняет все требуемые запросы к базе данных в рамках одной сессии"""
 
-    with context_repo() as repo:
+    with get_repository() as repo:
 
         print("\nПоследние 3 строки таблицы школ:")
         last_3 = repo.get_schools(limit=3)
