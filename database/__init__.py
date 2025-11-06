@@ -3,7 +3,7 @@ from .database_manager import (
     db_manager
 )
 
-from .repositories import MainRepository
+from .repository import MainRepository
 
 __all__ = [
     'DatabaseManager',
