@@ -32,7 +32,7 @@ class APIConfig:
 class DataConfig:
     """Конфигурация генерации данных"""
     mode: str  # 'sample' | 'bulk'
-    student_count: int
+    abiturient_count: int
     faculty_count: int
     school_count: int
     group_count: int
@@ -71,7 +71,7 @@ def load_config() -> AppConfig:
     # Конфигурация генератора данных
     data_config = DataConfig(
         mode=os.getenv('DATA_MODE', 'sample'),
-        student_count=int(os.getenv('DATA_STUDENT_COUNT', '10')),
+        abiturient_count=int(os.getenv('DATA_STUDENT_COUNT', '10')),
         faculty_count=int(os.getenv('DATA_FACULTY_COUNT', '10')),
         school_count=int(os.getenv('DATA_SCHOOL_COUNT', '10')),
         group_count=int(os.getenv('DATA_GROUP_COUNT', '10')),

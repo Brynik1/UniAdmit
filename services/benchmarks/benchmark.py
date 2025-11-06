@@ -7,7 +7,7 @@ from services.context_db import get_repository
 from core import config
 
 
-TEST_SIZES = [100, 5000, 10000]
+TEST_SIZES = [100, 5000]
 SORT = False
 LIMIT = 5
 
@@ -39,8 +39,8 @@ def get_test_data():
         faculty_sample = repo.faculty.get_sample()
         test_data['faculty'] = faculty_sample[0]
 
-        student_sample = repo.abiturient.get_sample()
-        test_data['student'] = {'last_name': student_sample[0], 'first_name': student_sample[1]}
+        abiturient_sample = repo.abiturient.get_sample()
+        test_data['abiturient'] = {'last_name': abiturient_sample[0], 'first_name': abiturient_sample[1]}
 
         group_sample = repo.study_group.get_sample()
         test_data['group'] = group_sample[0]
@@ -78,16 +78,16 @@ def run_tests(size):
             'name': 'Оценки студента',
             'method': 'get_abiturient_grades',
             'args': [
-                test_data['student']['last_name'],
-                test_data['student']['first_name']
+                test_data['abiturient']['last_name'],
+                test_data['abiturient']['first_name']
             ]
         },
         {
             'name': 'Расписание студента по предмету',
             'method': 'get_abiturient_subject_schedule',
             'args': [
-                test_data['student']['last_name'],
-                test_data['student']['first_name'],
+                test_data['abiturient']['last_name'],
+                test_data['abiturient']['first_name'],
                 test_data['subject']
             ]
         },

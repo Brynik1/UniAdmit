@@ -32,7 +32,7 @@ async def get_abiturient_grades_api(
             })
 
         return {
-            "student": f"{last_name} {first_name}",
+            "abiturient": f"{last_name} {first_name}",
             "count": len(grades),
             "grades": grades
         }
@@ -68,7 +68,7 @@ async def get_abiturient_subject_schedule_api(
             })
 
         return {
-            "student": f"{last_name} {first_name}",
+            "abiturient": f"{last_name} {first_name}",
             "subject": subject_name,
             "count": len(schedule),
             "schedule": schedule

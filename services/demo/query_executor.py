@@ -46,20 +46,20 @@ def execute_all_queries():
 
         print("\n4) Абитуриенты факультета компьютерных технологий:")
         faculty_name = 'Факультет компьютерных технологий'
-        faculty_students = repo.get_faculty_abiturients(faculty_name)
-        for student in faculty_students:
-            print(f"   - {student.Фамилия} {student.Имя} {student.Отчество or ''}: "
-                  f"{student.Кафедра} ({'Зачислен' if student.Зачислен == 'Да' else 'Не зачислен'})")
+        faculty_abiturients = repo.get_faculty_abiturients(faculty_name)
+        for abiturient in faculty_abiturients:
+            print(f"   - {abiturient.Фамилия} {abiturient.Имя} {abiturient.Отчество or ''}: "
+                  f"{abiturient.Кафедра} ({'Зачислен' if abiturient.Зачислен == 'Да' else 'Не зачислен'})")
 
         print("\n5) Оценки абитуриента Иванов Алексей:")
-        student_grades = repo.get_abiturient_grades('Иванов', 'Алексей')
-        for grade in student_grades:
+        abiturient_grades = repo.get_abiturient_grades('Иванов', 'Алексей')
+        for grade in abiturient_grades:
             print(f"   - {grade.Предмет}: {grade.Оценка} баллов "
                   f"({grade.Дата_экзамена}) {'[Апелляция]' if grade.Апелляция == 'Да' else ''}")
 
         print("\n6) Расписание по математике для Иванова Алексея:")
-        student_schedule = repo.get_abiturient_subject_schedule('Иванов', 'Алексей', 'Математика')
-        for schedule in student_schedule:
+        abiturient_schedule = repo.get_abiturient_subject_schedule('Иванов', 'Алексей', 'Математика')
+        for schedule in abiturient_schedule:
             print(f"   - {schedule.Дата}: {schedule.Тип} по {schedule.Предмет} "
                   f"в {schedule.Аудитория}")
 
@@ -70,10 +70,10 @@ def execute_all_queries():
                   f"в {schedule.Аудитория}")
 
         print("\n8) Рейтинг абитуриентов факультета компьютерных технологий:")
-        faculty_rating = repo.get_faculty_rating('Факультет компьютерных технологий')
-        for i, student in enumerate(faculty_rating, 1):
-            print(f"   - {i}. {student.Фамилия} {student.Имя}: {student.Сумма_баллов} баллов "
-                  f"({student.Медаль} медаль)")
+        faculty_rating = repo.get_faculty_rating('Факультет компьютерных технологий', sort=True)
+        for i, abiturient in enumerate(faculty_rating, 1):
+            print(f"   - {i}. {abiturient.Фамилия} {abiturient.Имя}: {abiturient.Сумма_баллов} баллов "
+                  f"({abiturient.Медаль} медаль)")
 
         print("\n9) Средний балл по предметам на факультете компьютерных технологий:")
         faculty_avg_grades = repo.get_faculty_avg_grades('Факультет компьютерных технологий')
