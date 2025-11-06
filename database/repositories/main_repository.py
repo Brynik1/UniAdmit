@@ -7,9 +7,7 @@ from .child_repositories import (
 )
 from database.queries import (
     get_faculty_students, get_student_grades, get_student_subject_schedule,
-    get_group_schedule, get_faculty_rating, get_faculty_avg_grades,
-    get_faculties_with_students, get_students_sample, get_groups_sample,
-    get_subjects_sample, get_schools
+    get_group_schedule, get_faculty_rating, get_faculty_avg_grades
 )
 
 
@@ -55,21 +53,3 @@ class MainRepository:
 
     def get_faculty_avg_grades(self, faculty_name, sort=False, limit=None):
         return get_faculty_avg_grades(faculty_name, self.session, sort, limit)
-
-
-    # Metadata queries
-
-    def get_faculties_with_students(self):
-        return get_faculties_with_students(self.session)
-
-    def get_students_sample(self):
-        return get_students_sample(self.session)
-
-    def get_groups_sample(self):
-        return get_groups_sample(self.session)
-
-    def get_subjects_sample(self):
-        return get_subjects_sample(self.session)
-
-    def get_schools(self, limit: int = None):
-        return get_schools(self.session, limit)

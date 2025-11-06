@@ -11,10 +11,10 @@ async def root_api(repo: MainRepository = Depends(get_repository)):
     """Корневой эндпоинт с информацией о API и примерами запросов"""
 
     # Получаем примеры данных
-    faculties_with_students = repo.get_faculties_with_students()
-    students_sample = repo.get_students_sample()
-    groups_sample = repo.get_groups_sample()
-    subjects_sample = repo.get_subjects_sample()
+    faculties_with_students = repo.faculty.get_sample(limit=3)
+    students_sample = repo.abiturient.get_sample(limit=3)
+    groups_sample = repo.study_group.get_sample(limit=3)
+    subjects_sample = repo.subject.get_sample(limit=3)
 
     faculty_example = faculties_with_students[0][0] if faculties_with_students else "Факультет компьютерных технологий"
     student_example = students_sample[0] if students_sample else ("Иванов", "Алексей")
