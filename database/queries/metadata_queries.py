@@ -1,10 +1,12 @@
+from sqlalchemy.orm import Session
+
 from database.models import (
     Faculty, Department, Abiturient, School,
     Subject, StudyGroup
 )
 
 
-def get_faculties_with_students(session):
+def get_faculties_with_students(session: Session):
     """Получает факультеты с абитуриентами"""
     return session.query(Faculty.name) \
         .join(Department, Faculty.id == Department.faculty_id) \
@@ -13,7 +15,7 @@ def get_faculties_with_students(session):
         .all()
 
 
-def get_students_sample(session):
+def get_students_sample(session: Session):
     """Получает примеры студентов"""
     return session.query(
         Abiturient.last_name,
@@ -21,21 +23,21 @@ def get_students_sample(session):
     ).distinct().all()
 
 
-def get_groups_sample(session):
+def get_groups_sample(session: Session):
     """Получает примеры групп"""
     return session.query(StudyGroup.name) \
         .distinct() \
         .all()
 
 
-def get_subjects_sample(session):
+def get_subjects_sample(session: Session):
     """Получает примеры предметов"""
     return session.query(Subject.name) \
         .distinct() \
         .all()
 
 
-def get_schools(session, limit: int = None):
+def get_schools(session: Session, limit: int = None):
     """Получает все школы"""
     query = session.query(School)
     return query.order_by(School.id.desc()).limit(limit).all() if limit else query.all()
