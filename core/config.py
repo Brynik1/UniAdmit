@@ -71,7 +71,7 @@ def load_config() -> AppConfig:
     # Конфигурация генератора данных
     data_config = DataConfig(
         mode=os.getenv('DATA_MODE', 'sample'),
-        abiturient_count=int(os.getenv('DATA_STUDENT_COUNT', '10')),
+        abiturient_count=int(os.getenv('DATA_ABITURIENT_COUNT', '10')),
         faculty_count=int(os.getenv('DATA_FACULTY_COUNT', '10')),
         school_count=int(os.getenv('DATA_SCHOOL_COUNT', '10')),
         group_count=int(os.getenv('DATA_GROUP_COUNT', '10')),

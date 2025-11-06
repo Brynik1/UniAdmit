@@ -17,11 +17,9 @@ class DatabaseManager:
         )
 
     def create_tables(self):
-        """Создает все таблицы в базе данных"""
         Base.metadata.create_all(bind=self.engine)
 
     def drop_tables(self):
-        """Удаляет все таблицы из базы данных"""
         Base.metadata.drop_all(bind=self.engine)
 
     @contextmanager

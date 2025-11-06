@@ -49,7 +49,7 @@ async def get_faculty_rating_api(
 ):
     """Получить рейтинг абитуриентов факультета по сумме баллов"""
     try:
-        results = repo.get_faculty_rating(faculty_name)
+        results = repo.get_faculty_rating(faculty_name, sort=True)
 
         if not results:
             raise HTTPException(

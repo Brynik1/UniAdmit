@@ -134,7 +134,7 @@ def get_exam_schedules(stream_count, subject_count):
 
 
 def generate_bulk_data(
-        student_count=10000,
+        abiturient_count=10000,
         faculty_count=10000,
         school_count=10000,
         group_count=10000,
@@ -209,7 +209,7 @@ def generate_bulk_data(
         batch = []
 
     department_count = faculty_count * 2
-    for data in get_examination_lists(student_count, group_count):
+    for data in get_examination_lists(abiturient_count, group_count):
         batch.append(data)
         if len(batch) >= batch_size:
             yield "examination_list", batch
@@ -219,7 +219,7 @@ def generate_bulk_data(
         yield "examination_list", batch
         batch = []
 
-    for data in get_abiturients(student_count, department_count, school_count):
+    for data in get_abiturients(abiturient_count, department_count, school_count):
         batch.append(data)
         if len(batch) >= batch_size:
             yield "abiturient", batch
@@ -229,7 +229,7 @@ def generate_bulk_data(
         yield "abiturient", batch
         batch = []
 
-    for data in get_exam_records(student_count, subject_count):
+    for data in get_exam_records(abiturient_count, subject_count):
         batch.append(data)
         if len(batch) >= batch_size:
             yield "exam_record", batch

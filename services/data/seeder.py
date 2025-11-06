@@ -16,7 +16,7 @@ class Seeder:
             data_generator = generate_sample_data()
         else:
             data_generator = generate_bulk_data(
-                student_count=self.data_config.student_count,
+                abiturient_count=self.data_config.abiturient_count,
                 faculty_count=self.data_config.faculty_count,
                 school_count=self.data_config.school_count,
                 group_count=self.data_config.group_count,

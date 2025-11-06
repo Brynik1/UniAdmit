@@ -17,7 +17,7 @@ if __name__ == '__main__':
         elif '--bulk' in args:
             config.data.mode = 'bulk'
 
-        print(f"Заполнение базы в режиме: {config.data.mode}")
+        print(f"Заполнение базы данных в режиме: {config.data.mode}")
         seeder.seed()
 
     if '--demo' in args:
