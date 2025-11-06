@@ -28,9 +28,9 @@ class Faculty(Base):
 
     departments = relationship("Department", back_populates="faculty")
 
-    __table_args__ = (
-        Index('idx_faculty_name', 'name'),
-    )
+    # __table_args__ = (
+    #     Index('idx_faculty_name', 'name'),
+    # )
 
 
 class Department(Base):
@@ -44,10 +44,10 @@ class Department(Base):
     faculty = relationship("Faculty", back_populates="departments")
     abiturients = relationship("Abiturient", back_populates="department")
 
-    __table_args__ = (
-        Index('idx_department_name', 'name'),
-        Index('idx_department_faculty_id', 'faculty_id'),
-    )
+    # __table_args__ = (
+    #     Index('idx_department_name', 'name'),
+    #     Index('idx_department_faculty_id', 'faculty_id'),
+    # )
 
 
 class School(Base):
@@ -71,9 +71,9 @@ class Subject(Base):
     exam_records = relationship("ExamRecord", back_populates="subject")
     exam_schedules = relationship("ExamSchedule", back_populates="subject")
 
-    __table_args__ = (
-        Index('idx_subject_name', 'name'),
-    )
+    # __table_args__ = (
+    #     Index('idx_subject_name', 'name'),
+    # )
 
 
 
@@ -87,9 +87,9 @@ class StudyGroup(Base):
     examination_lists = relationship("ExaminationList", back_populates="group")
     stream_groups = relationship("StreamGroup", back_populates="group")
 
-    __table_args__ = (
-        Index('idx_study_group_name', 'name'),
-    )
+    # __table_args__ = (
+    #     Index('idx_study_group_name', 'name'),
+    # )
 
 
 class ExaminationList(Base):
@@ -103,9 +103,9 @@ class ExaminationList(Base):
     abiturients = relationship("Abiturient", back_populates="examination_list")
     exam_records = relationship("ExamRecord", back_populates="examination_list")
 
-    __table_args__ = (
-        Index('idx_examination_list_group_id', 'group_id'),
-    )
+    # __table_args__ = (
+    #     Index('idx_examination_list_group_id', 'group_id'),
+    # )
 
 
 class Stream(Base):
@@ -143,11 +143,11 @@ class Abiturient(Base):
     school = relationship("School", back_populates="abiturients")
     examination_list = relationship("ExaminationList", back_populates="abiturients")
 
-    __table_args__ = (
-        Index('idx_abiturient_name_search', 'last_name', 'first_name'),
-        Index('idx_abiturient_department_id', 'department_id'),
-        Index('idx_abiturient_ex_list_id', 'ex_list_id')
-    )
+    # __table_args__ = (
+    #     Index('idx_abiturient_name_search', 'last_name', 'first_name'),
+    #     Index('idx_abiturient_department_id', 'department_id'),
+    #     Index('idx_abiturient_ex_list_id', 'ex_list_id')
+    # )
 
 
 class ExamRecord(Base):
@@ -164,10 +164,10 @@ class ExamRecord(Base):
     examination_list = relationship("ExaminationList", back_populates="exam_records")
     subject = relationship("Subject", back_populates="exam_records")
 
-    __table_args__ = (
-        Index('idx_exam_record_ex_list_id', 'ex_list_id'),
-        Index('idx_exam_record_subject_id', 'subject_id'),
-    )
+    # __table_args__ = (
+    #     Index('idx_exam_record_ex_list_id', 'ex_list_id'),
+    #     Index('idx_exam_record_subject_id', 'subject_id'),
+    # )
 
 
 class StreamGroup(Base):
@@ -180,10 +180,10 @@ class StreamGroup(Base):
     group = relationship("StudyGroup", back_populates="stream_groups")
     stream = relationship("Stream", back_populates="stream_groups")
 
-    __table_args__ = (
-        Index('idx_stream_group_stream_id', 'stream_id'),
-        Index('idx_stream_group_group_id', 'group_id'),
-    )
+    # __table_args__ = (
+    #     Index('idx_stream_group_stream_id', 'stream_id'),
+    #     Index('idx_stream_group_group_id', 'group_id'),
+    # )
 
 
 class ExamSchedule(Base):
@@ -200,7 +200,7 @@ class ExamSchedule(Base):
     stream = relationship("Stream", back_populates="exam_schedules")
     subject = relationship("Subject", back_populates="exam_schedules")
 
-    __table_args__ = (
-        Index('idx_exam_schedule_stream_id', 'stream_id'),
-        Index('idx_exam_schedule_subject_id', 'subject_id'),
-    )
+    # __table_args__ = (
+    #     Index('idx_exam_schedule_stream_id', 'stream_id'),
+    #     Index('idx_exam_schedule_subject_id', 'subject_id'),
+    # )
