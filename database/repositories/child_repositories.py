@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session, class_mapper
+from sqlalchemy.orm import Session, class_mapper, query_expression
 from datetime import date
 
 from database.models import (
@@ -23,6 +23,10 @@ class FacultyRepository:
 
     def get_count(self):
         return self.session.query(Faculty).count()
+
+    def get_sample(self, limit=None):
+        query = self.session.query(Faculty.name)
+        return query.limit(limit).all() if limit else query.first()
 
 
 class DepartmentRepository:
@@ -105,6 +109,10 @@ class SubjectRepository:
     def get_count(self):
         return self.session.query(Subject).count()
 
+    def get_sample(self, limit=None):
+        query = self.session.query(Subject.name)
+        return query.limit(limit).all() if limit else query.first()
+
 
 class StudyGroupRepository:
     def __init__(self, session: Session):
@@ -121,6 +129,10 @@ class StudyGroupRepository:
 
     def get_count(self):
         return self.session.query(StudyGroup).count()
+
+    def get_sample(self, limit=None):
+        query = self.session.query(StudyGroup.name)
+        return query.limit(limit).all() if limit else query.first()
 
 
 class ExaminationListRepository:
@@ -197,6 +209,13 @@ class AbiturientRepository:
 
     def get_count(self):
         return self.session.query(Abiturient).count()
+
+    def get_sample(self, limit=None):
+        query = self.session.query(
+            Abiturient.last_name,
+            Abiturient.first_name
+        )
+        return query.limit(limit).all() if limit else query.first()
 
 
 class ExamRecordRepository:
