@@ -7,13 +7,13 @@ router = APIRouter(prefix="/faculty", tags=["faculties"])
 
 
 @router.get("/{faculty_name}/abiturients")
-async def get_faculty_students_api(
+async def get_faculty_abiturients_api(
     faculty_name: str,
     repo: MainRepository = Depends(get_repository)
 ):
     """Получить всех абитуриентов указанного факультета"""
     try:
-        results = repo.get_faculty_students(faculty_name)
+        results = repo.get_faculty_abiturients(faculty_name)
 
         if not results:
             raise HTTPException(

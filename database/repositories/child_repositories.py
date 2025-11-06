@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session, class_mapper, query_expression
+from sqlalchemy.orm import Session, class_mapper
 from datetime import date
 
 from database.models import (
@@ -91,6 +91,10 @@ class SchoolRepository:
 
     def get_count(self):
         return self.session.query(School).count()
+
+    def get_sample(self, limit=None):
+        query = self.session.query(School.name, School.address)
+        return query.order_by(School.id.desc()).limit(limit).all() if limit else query.first()
 
 
 class SubjectRepository:

@@ -12,12 +12,12 @@ async def root_api(repo: MainRepository = Depends(get_repository)):
 
     # Получаем примеры данных
     faculties_with_students = repo.faculty.get_sample(limit=3)
-    students_sample = repo.abiturient.get_sample(limit=3)
+    abiturients_sample = repo.abiturient.get_sample(limit=3)
     groups_sample = repo.study_group.get_sample(limit=3)
     subjects_sample = repo.subject.get_sample(limit=3)
 
     faculty_example = faculties_with_students[0][0] if faculties_with_students else "Факультет компьютерных технологий"
-    student_example = students_sample[0] if students_sample else ("Иванов", "Алексей")
+    abiturient_example = abiturients_sample[0] if abiturients_sample else ("Иванов", "Алексей")
     group_example = groups_sample[0][0] if groups_sample else "ПИ-101"
     subject_example = subjects_sample[0][0] if subjects_sample else "Математика"
 
@@ -31,14 +31,14 @@ async def root_api(repo: MainRepository = Depends(get_repository)):
                 "example": f"/faculty/{faculty_example}/abiturients"
             },
             "2.": {
-                "path": "/student/{last_name}/{first_name}/grades",
+                "path": "/abiturient/{last_name}/{first_name}/grades",
                 "description": "Получить все оценки абитуриента",
-                "example": f"/student/{student_example[0]}/{student_example[1]}/grades"
+                "example": f"/abiturient/{abiturient_example[0]}/{abiturient_example[1]}/grades"
             },
             "3.": {
-                "path": "/student/{last_name}/{first_name}/schedule/{subject_name}",
+                "path": "/abiturient/{last_name}/{first_name}/schedule/{subject_name}",
                 "description": "Получить расписание консультаций и экзаменов для абитуриента по предмету",
-                "example": f"/student/{student_example[0]}/{student_example[1]}/schedule/{subject_example}"
+                "example": f"/abiturient/{abiturient_example[0]}/{abiturient_example[1]}/schedule/{subject_example}"
             },
             "4.": {
                 "path": "/group/{group_name}/schedule",
@@ -63,14 +63,14 @@ async def root_api(repo: MainRepository = Depends(get_repository)):
 
         "examples": {
             "available_faculties": [f[0] for f in faculties_with_students[:3]],
-            "available_students": [f"{s[0]} {s[1]}" for s in students_sample[:3]],
+            "available_abiturients": [f"{s[0]} {s[1]}" for s in abiturients_sample[:3]],
             "available_groups": [g[0] for g in groups_sample[:3]],
             "available_subjects": [s[0] for s in subjects_sample[:3]]
         },
 
         "statistics": {
             "total_faculties": repo.faculty.get_count(),
-            "total_students": repo.abiturient.get_count(),
+            "total_abiturients": repo.abiturient.get_count(),
             "total_groups": repo.study_group.get_count(),
             "total_subjects": repo.subject.get_count()
         }

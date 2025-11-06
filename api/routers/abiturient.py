@@ -3,18 +3,18 @@ from fastapi import APIRouter, Depends, HTTPException
 from database import MainRepository
 from api.di import get_repository
 
-router = APIRouter(prefix="/student", tags=["students"])
+router = APIRouter(prefix="/abiturient", tags=["abiturients"])
 
 
 @router.get("/{last_name}/{first_name}/grades")
-async def get_student_grades_api(
+async def get_abiturient_grades_api(
     last_name: str,
     first_name: str,
     repo: MainRepository = Depends(get_repository)
 ):
     """Получить все оценки абитуриента"""
     try:
-        results = repo.get_student_grades(last_name, first_name)
+        results = repo.get_abiturient_grades(last_name, first_name)
 
         if not results:
             raise HTTPException(
@@ -42,7 +42,7 @@ async def get_student_grades_api(
 
 
 @router.get("/{last_name}/{first_name}/schedule/{subject_name}")
-async def get_student_subject_schedule_api(
+async def get_abiturient_subject_schedule_api(
     last_name: str,
     first_name: str,
     subject_name: str,
@@ -50,7 +50,7 @@ async def get_student_subject_schedule_api(
 ):
     """Получить расписание консультаций и экзаменов для абитуриента по предмету"""
     try:
-        results = repo.get_student_subject_schedule(last_name, first_name, subject_name)
+        results = repo.get_abiturient_subject_schedule(last_name, first_name, subject_name)
 
         if not results:
             raise HTTPException(

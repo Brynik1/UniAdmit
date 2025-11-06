@@ -6,7 +6,7 @@ from .child_repositories import (
     StreamGroupRepository, ExamScheduleRepository
 )
 from database.queries import (
-    get_faculty_students, get_student_grades, get_student_subject_schedule,
+    get_faculty_abiturients, get_abiturient_grades, get_abiturient_subject_schedule,
     get_group_schedule, get_faculty_rating, get_faculty_avg_grades
 )
 
@@ -36,14 +36,14 @@ class MainRepository:
 
     # Complex queries
 
-    def get_faculty_students(self, faculty_name, sort=False, limit=None):
-        return get_faculty_students(faculty_name, self.session, sort, limit)
+    def get_faculty_abiturients(self, faculty_name, sort=False, limit=None):
+        return get_faculty_abiturients(faculty_name, self.session, sort, limit)
 
-    def get_student_grades(self, last_name, first_name, sort=False, limit=None):
-        return get_student_grades(last_name, first_name, self.session, sort, limit)
+    def get_abiturient_grades(self, last_name, first_name, sort=False, limit=None):
+        return get_abiturient_grades(last_name, first_name, self.session, sort, limit)
 
-    def get_student_subject_schedule(self, last_name, first_name: str, subject_name: str, sort=False, limit=None):
-        return get_student_subject_schedule(last_name, first_name, subject_name, self.session, sort, limit)
+    def get_abiturient_subject_schedule(self, last_name, first_name: str, subject_name: str, sort=False, limit=None):
+        return get_abiturient_subject_schedule(last_name, first_name, subject_name, self.session, sort, limit)
 
     def get_group_schedule(self, group_name, sort=False, limit=None):
         return get_group_schedule(group_name, self.session, sort, limit)

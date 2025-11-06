@@ -71,12 +71,12 @@ def run_tests(size):
     queries = [
         {
             'name': 'Абитуриенты факультета',
-            'method': 'get_faculty_students',
+            'method': 'get_faculty_abiturients',
             'args': [test_data['faculty']]
         },
         {
             'name': 'Оценки студента',
-            'method': 'get_student_grades',
+            'method': 'get_abiturient_grades',
             'args': [
                 test_data['student']['last_name'],
                 test_data['student']['first_name']
@@ -84,7 +84,7 @@ def run_tests(size):
         },
         {
             'name': 'Расписание студента по предмету',
-            'method': 'get_student_subject_schedule',
+            'method': 'get_abiturient_subject_schedule',
             'args': [
                 test_data['student']['last_name'],
                 test_data['student']['first_name'],

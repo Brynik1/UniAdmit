@@ -83,7 +83,7 @@ def load_config() -> AppConfig:
     return AppConfig(
         database=db_config,
         api=api_config,
-        data=data_config,  # Добавляем в основную конфигурацию
+        data=data_config,
     )
 
 

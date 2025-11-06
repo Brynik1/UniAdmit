@@ -7,7 +7,7 @@ from sqlalchemy import func, case, literal
 from sqlalchemy.orm import Session
 
 
-def get_faculty_students(
+def get_faculty_abiturients(
         faculty_name: str,
         session: Session,
         sort: bool = False,
@@ -37,7 +37,7 @@ def get_faculty_students(
     return query.limit(limit).all() if limit else query.all()
 
 
-def get_student_grades(
+def get_abiturient_grades(
         last_name: str,
         first_name: str,
         session: Session,
@@ -65,7 +65,7 @@ def get_student_grades(
     return query.limit(limit).all() if limit else query.all()
 
 
-def get_student_subject_schedule(
+def get_abiturient_subject_schedule(
         last_name: str,
         first_name: str,
         subject_name: str,
