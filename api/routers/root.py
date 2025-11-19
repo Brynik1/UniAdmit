@@ -16,10 +16,10 @@ async def root_api(repo: MainRepository = Depends(get_repository)):
     groups_sample = repo.study_group.get_sample(limit=3)
     subjects_sample = repo.subject.get_sample(limit=3)
 
-    faculty_example = faculties_with_students[0][0] if faculties_with_students else "Факультет компьютерных технологий"
-    abiturient_example = abiturients_sample[0] if abiturients_sample else ("Иванов", "Алексей")
-    group_example = groups_sample[0][0] if groups_sample else "ПИ-101"
-    subject_example = subjects_sample[0][0] if subjects_sample else "Математика"
+    faculty_example = faculties_with_students[0].faculty_name if faculties_with_students else "Какая-то кафедра"
+    abiturient_example = abiturients_sample[0]
+    group_example = groups_sample[0].group_name if groups_sample else "Какая-то группа"
+    subject_example = subjects_sample[0].subject_name if subjects_sample else "Какой-то предмет"
 
     return {
         "message": "🎓 Добро пожаловать в систему управления абитуриентами!",
@@ -33,12 +33,12 @@ async def root_api(repo: MainRepository = Depends(get_repository)):
             "2.": {
                 "path": "/abiturient/{last_name}/{first_name}/grades",
                 "description": "Получить все оценки абитуриента",
-                "example": f"/abiturient/{abiturient_example[0]}/{abiturient_example[1]}/grades"
+                "example": f"/abiturient/{abiturient_example.last_name}/{abiturient_example.first_name}/grades"
             },
             "3.": {
                 "path": "/abiturient/{last_name}/{first_name}/schedule/{subject_name}",
                 "description": "Получить расписание консультаций и экзаменов для абитуриента по предмету",
-                "example": f"/abiturient/{abiturient_example[0]}/{abiturient_example[1]}/schedule/{subject_example}"
+                "example": f"/abiturient/{abiturient_example.last_name}/{abiturient_example.first_name}/schedule/{subject_example}"
             },
             "4.": {
                 "path": "/group/{group_name}/schedule",
@@ -62,10 +62,10 @@ async def root_api(repo: MainRepository = Depends(get_repository)):
         },
 
         "examples": {
-            "available_faculties": [f[0] for f in faculties_with_students[:3]],
-            "available_abiturients": [f"{s[0]} {s[1]}" for s in abiturients_sample[:3]],
-            "available_groups": [g[0] for g in groups_sample[:3]],
-            "available_subjects": [s[0] for s in subjects_sample[:3]]
+            "available_faculties": [f.faculty_name for f in faculties_with_students[:3]],
+            "available_abiturients": [f"{s.last_name} {s.first_name}" for s in abiturients_sample[:3]],
+            "available_groups": [g.group_name for g in groups_sample[:3]],
+            "available_subjects": [s.subject_name for s in subjects_sample[:3]]
         },
 
         "statistics": {

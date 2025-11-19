@@ -8,7 +8,7 @@ class SubjectRepository:
         self.session = session
 
     def create(self, name: str):
-        subject = Subject(name=name)
+        subject = Subject(subject_name=name)
         self.session.add(subject)
         self.session.flush()
 
@@ -20,5 +20,5 @@ class SubjectRepository:
         return self.session.query(Subject).count()
 
     def get_sample(self, limit=None):
-        query = self.session.query(Subject.name)
+        query = self.session.query(Subject.subject_name)
         return query.limit(limit).all() if limit else query.first()

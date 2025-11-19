@@ -25,9 +25,9 @@ async def get_abiturient_grades_api(
         grades = []
         for row in results:
             grades.append({
-                "subject": row.Предмет,
-                "grade": row.Оценка,
-                "exam_date": row.Дата_экзамена.isoformat() if row.Дата_экзамена else None,
+                "subject": row.subject_name,
+                "grade": row.grade,
+                "exam_date": row.exam_date.isoformat() if row.exam_date else None,
                 "is_appeal": row.Апелляция == "Да"
             })
 
@@ -61,10 +61,10 @@ async def get_abiturient_subject_schedule_api(
         schedule = []
         for row in results:
             schedule.append({
-                "date": row.Дата.isoformat() if row.Дата else None,
-                "classroom": row.Аудитория,
+                "date": row.schedule_date.isoformat() if row.schedule_date else None,
+                "classroom": row.classroom,
                 "type": row.Тип,
-                "subject": row.Предмет
+                "subject": row.subject_name
             })
 
         return {

@@ -24,9 +24,9 @@ async def get_group_schedule_api(
         schedule = []
         for row in results:
             schedule.append({
-                "date": row.Дата.isoformat() if row.Дата else None,
-                "classroom": row.Аудитория,
-                "subject": row.Предмет,
+                "date": row.schedule_date.isoformat() if row.schedule_date else None,
+                "classroom": row.classroom,
+                "subject": row.subject_name,
                 "type": row.Тип
             })
 

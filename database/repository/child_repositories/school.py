@@ -7,7 +7,7 @@ class SchoolRepository:
         self.session = session
 
     def create(self, name: str, address: str):
-        school = School(name=name, address=address)
+        school = School(school_name=name, address=address)
         self.session.add(school)
         self.session.flush()
 
@@ -17,7 +17,7 @@ class SchoolRepository:
 
     def update(self, name: str, address: str, new_name: str = None, new_address: str = None):
         school = self.session.query(School).filter(
-            School.name == name,
+            School.school_name == name,
             School.address == address
         ).first()
 
@@ -34,7 +34,7 @@ class SchoolRepository:
 
     def delete(self, name: str, address: str):
         school = self.session.query(School).filter(
-            School.name == name,
+            School.school_name == name,
             School.address == address
         ).first()
 
@@ -49,5 +49,5 @@ class SchoolRepository:
         return self.session.query(School).count()
 
     def get_sample(self, limit=None):
-        query = self.session.query(School.name, School.address)
+        query = self.session.query(School.school_name, School.address)
         return query.order_by(School.id.desc()).limit(limit).all() if limit else query.first()

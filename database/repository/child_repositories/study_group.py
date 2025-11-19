@@ -8,7 +8,7 @@ class StudyGroupRepository:
         self.session = session
 
     def create(self, name: str):
-        group = StudyGroup(name=name)
+        group = StudyGroup(group_name=name)
         self.session.add(group)
         self.session.flush()
 
@@ -20,5 +20,5 @@ class StudyGroupRepository:
         return self.session.query(StudyGroup).count()
 
     def get_sample(self, limit=None):
-        query = self.session.query(StudyGroup.name)
+        query = self.session.query(StudyGroup.group_name)
         return query.limit(limit).all() if limit else query.first()

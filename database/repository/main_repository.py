@@ -46,17 +46,17 @@ class MainRepository:
     ):
         """Получить абитуриентов факультета"""
         query = self.session.query(
-            Abiturient.last_name.label("Фамилия"),
-            Abiturient.first_name.label("Имя"),
-            Abiturient.patronymic.label("Отчество"),
-            Faculty.name.label("Факультет"),
-            Department.name.label("Кафедра"),
+            Abiturient.last_name,
+            Abiturient.first_name,
+            Abiturient.patronymic,
+            Faculty.faculty_name,
+            Department.department_name,
             case(
                 (Abiturient.is_enrolled == True, "Да"), else_="Нет"
             ).label("Зачислен")
         ).join(Department, Abiturient.department_id == Department.id) \
             .join(Faculty, Department.faculty_id == Faculty.id) \
-            .filter(Faculty.name == faculty_name)
+            .filter(Faculty.faculty_name == faculty_name)
 
         if sort:
             query = query.order_by(
@@ -76,9 +76,9 @@ class MainRepository:
     ):
         """Получить оценки абитуриента"""
         query = self.session.query(
-            Subject.name.label("Предмет"),
-            ExamRecord.grade.label("Оценка"),
-            ExamRecord.record_date.label("Дата_экзамена"),
+            Subject.subject_name,
+            ExamRecord.grade,
+            ExamRecord.exam_date,
             case(
                 (ExamRecord.is_appeal == True, "Да"), else_="Нет"
             ).label("Апелляция")
@@ -89,7 +89,7 @@ class MainRepository:
 
         if sort:
             query = query.order_by(
-                ExamRecord.record_date
+                ExamRecord.exam_date
             )
 
         return query.limit(limit).all() if limit else query.all()
@@ -104,14 +104,14 @@ class MainRepository:
     ):
         """Получить расписание консультаций и экзаменов для абитуриента по предмету"""
         query = self.session.query(
-            ExamSchedule.record_date.label("Дата"),
-            ExamSchedule.classroom.label("Аудитория"),
+            ExamSchedule.schedule_date,
+            ExamSchedule.classroom,
             case(
                 (ExamSchedule.exam_type == ExamType.CONSULTATION, "Консультация"),
                 (ExamSchedule.exam_type == ExamType.EXAM, "Экзамен"),
                 else_="Неизвестно"
             ).label("Тип"),
-            Subject.name.label("Предмет")
+            Subject.subject_name
         ).join(Subject, ExamSchedule.subject_id == Subject.id) \
             .join(Stream, ExamSchedule.stream_id == Stream.id) \
             .join(StreamGroup, Stream.id == StreamGroup.stream_id) \
@@ -121,12 +121,12 @@ class MainRepository:
             .filter(
             Abiturient.last_name == last_name,
             Abiturient.first_name == first_name,
-            Subject.name == subject_name
+            Subject.subject_name == subject_name
         )
 
         if sort:
             query = query.order_by(
-                ExamSchedule.record_date
+                ExamSchedule.schedule_date
             )
 
         return query.limit(limit).all() if limit else query.all()
@@ -139,22 +139,22 @@ class MainRepository:
     ):
         """Получить расписание экзаменов для учебной группы"""
         query = self.session.query(
-            ExamSchedule.record_date.label("Дата"),
-            ExamSchedule.classroom.label("Аудитория"),
-            Subject.name.label("Предмет"),
+            ExamSchedule.schedule_date,
+            ExamSchedule.classroom,
+            Subject.subject_name,
             literal("Экзамен").label("Тип")
         ).join(Subject, ExamSchedule.subject_id == Subject.id) \
             .join(Stream, ExamSchedule.stream_id == Stream.id) \
             .join(StreamGroup, Stream.id == StreamGroup.stream_id) \
             .join(StudyGroup, StreamGroup.group_id == StudyGroup.id) \
             .filter(
-            StudyGroup.name == group_name,
+            StudyGroup.group_name == group_name,
             ExamSchedule.exam_type == ExamType.EXAM
         )
 
         if sort:
             query = query.order_by(
-                ExamSchedule.record_date
+                ExamSchedule.schedule_date
             )
 
         return query.limit(limit).all() if limit else query.all()
@@ -167,8 +167,8 @@ class MainRepository:
     ):
         """Получить рейтинг абитуриентов факультета по сумме баллов"""
         query = self.session.query(
-            Abiturient.last_name.label("Фамилия"),
-            Abiturient.first_name.label("Имя"),
+            Abiturient.last_name,
+            Abiturient.first_name,
             case(
                 (Abiturient.has_medal == MedalType.GOLD, "Золотая"),
                 (Abiturient.has_medal == MedalType.SILVER, "Серебряная"),
@@ -179,7 +179,7 @@ class MainRepository:
             .join(Faculty, Department.faculty_id == Faculty.id) \
             .join(ExaminationList, Abiturient.ex_list_id == ExaminationList.id) \
             .join(ExamRecord, ExaminationList.id == ExamRecord.ex_list_id) \
-            .filter(Faculty.name == faculty_name) \
+            .filter(Faculty.faculty_name == faculty_name) \
             .group_by(Abiturient.id, Abiturient.last_name, Abiturient.first_name, Abiturient.has_medal)
 
         if sort:
@@ -197,15 +197,15 @@ class MainRepository:
     ):
         """Получить средний балл по предметам на факультете"""
         query = self.session.query(
-            Subject.name.label("Предмет"),
+            Subject.subject_name,
             func.round(func.avg(ExamRecord.grade), 2).label("Средний_балл")
         ).join(ExamRecord, Subject.id == ExamRecord.subject_id) \
             .join(ExaminationList, ExamRecord.ex_list_id == ExaminationList.id) \
             .join(Abiturient, ExaminationList.id == Abiturient.ex_list_id) \
             .join(Department, Abiturient.department_id == Department.id) \
             .join(Faculty, Department.faculty_id == Faculty.id) \
-            .filter(Faculty.name == faculty_name) \
-            .group_by(Subject.id, Subject.name)
+            .filter(Faculty.faculty_name == faculty_name) \
+            .group_by(Subject.id)
 
         if sort:
             query = query.order_by(

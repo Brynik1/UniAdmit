@@ -8,7 +8,7 @@ class StreamRepository:
         self.session = session
 
     def create(self, name: str):
-        stream = Stream(name=name)
+        stream = Stream(stream_name=name)
         self.session.add(stream)
         self.session.flush()
 

@@ -9,7 +9,7 @@ class DepartmentRepository:
         self.session = session
 
     def create(self, name: str, faculty_id: int):
-        department = Department(name=name, faculty_id=faculty_id)
+        department = Department(department_name=name, faculty_id=faculty_id)
         self.session.add(department)
         self.session.flush()
 

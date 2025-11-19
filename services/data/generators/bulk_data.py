@@ -9,15 +9,15 @@ fake = Faker('ru_RU')
 def get_faculties(count):
     """Генерация факультетов и кафедр"""
     for i in range(count):
-        faculty = {"name": f"Факультет №{i}"}
+        faculty = {"faculty_name": f"Факультет №{i}"}
         yield faculty
 
 
 def get_departments(faculty_count):
     for i in range(faculty_count):
         departments = [
-            {"name": f"Кафедра A{i}", "faculty_id": i + 1},
-            {"name": f"Кафедра B{i}", "faculty_id": i + 1}
+            {"department_name": f"Кафедра A{i}", "faculty_id": i + 1},
+            {"department_name": f"Кафедра B{i}", "faculty_id": i + 1}
         ]
         for department in departments:
             yield department
@@ -26,28 +26,28 @@ def get_departments(faculty_count):
 def get_schools(count):
     """Генерация школ"""
     for i in range(count):
-        school = {"name": f"Школа №{i}", "address": "г. Санкт-Петербург"}
+        school = {"school_name": f"Школа №{i}", "address": "г. Санкт-Петербург"}
         yield school
 
 
 def get_subjects(count):
     """Генерация предметов"""
     for i in range(count):
-        subject = {"name": f"Предмет №{i}"}
+        subject = {"subject_name": f"Предмет №{i}"}
         yield subject
 
 
 def get_study_groups(count):
     """Генерация учебных групп"""
     for i in range(count):
-        group = {"name": f"Группа №{i}"}
+        group = {"group_name": f"Группа №{i}"}
         yield group
 
 
 def get_streams(count):
     """Генерация потоков"""
     for i in range(count):
-        stream = {"name": f"Поток №{i}"}
+        stream = {"stream_name": f"Поток №{i}"}
         yield stream
 
 
@@ -96,7 +96,7 @@ def get_exam_records(total_exam_lists, subject_count):
                 "subject_id": subject_id,
                 "grade": (exam_list_id + subject_id) % 100 + 1,
                 "is_appeal": False,
-                "record_date": fake.date_between(start_date='-1y', end_date='today')
+                "exam_date": fake.date_between(start_date='-1y', end_date='today')
             }
             yield exam_record
 
@@ -128,7 +128,7 @@ def get_exam_schedules(stream_count, subject_count):
                 "subject_id": subject_id,
                 "classroom": classroom,
                 "exam_type": ExamType.EXAM,
-                "record_date": exam_date
+                "schedule_date": exam_date
             }
             yield exam_schedule
 

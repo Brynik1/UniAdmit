@@ -24,11 +24,11 @@ async def get_faculty_abiturients_api(
         abiturients = []
         for row in results:
             abiturients.append({
-                "last_name": row.Фамилия,
-                "first_name": row.Имя,
-                "patronymic": row.Отчество,
-                "faculty": row.Факультет,
-                "department": row.Кафедра,
+                "last_name": row.last_name,
+                "first_name": row.first_name,
+                "patronymic": row.patronymic,
+                "faculty": row.faculty_name,
+                "department": row.department_name,
                 "is_enrolled": row.Зачислен == "Да"
             })
 
@@ -61,8 +61,8 @@ async def get_faculty_rating_api(
         for i, row in enumerate(results, 1):
             rating.append({
                 "position": i,
-                "last_name": row.Фамилия,
-                "first_name": row.Имя,
+                "last_name": row.last_name,
+                "first_name": row.first_name,
                 "medal": row.Медаль,
                 "total_score": float(row.Сумма_баллов) if row.Сумма_баллов else 0
             })
@@ -95,7 +95,7 @@ async def get_faculty_avg_grades_api(
         avg_grades = []
         for row in results:
             avg_grades.append({
-                "subject": row.Предмет,
+                "subject": row.subject_name,
                 "avg_grade": float(row.Средний_балл) if row.Средний_балл else 0
             })
 

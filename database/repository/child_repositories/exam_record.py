@@ -21,7 +21,7 @@ class ExamRecordRepository:
             subject_id=subject_id,
             grade=grade,
             is_appeal=is_appeal,
-            record_date=record_date
+            exam_date=record_date
         )
         self.session.add(exam_record)
         self.session.flush()

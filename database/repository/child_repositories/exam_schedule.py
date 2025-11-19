@@ -21,7 +21,7 @@ class ExamScheduleRepository:
             subject_id=subject_id,
             classroom=classroom,
             exam_type=exam_type,
-            record_date=record_date
+            schedule_date=record_date
         )
         self.session.add(exam_schedule)
         self.session.flush()
