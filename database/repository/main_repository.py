@@ -148,9 +148,9 @@ class MainRepository:
             .join(StreamGroup, Stream.id == StreamGroup.stream_id) \
             .join(StudyGroup, StreamGroup.group_id == StudyGroup.id) \
             .filter(
-            StudyGroup.group_name == group_name,
-            ExamSchedule.exam_type == ExamType.EXAM
-        )
+                StudyGroup.group_name == group_name,
+                ExamSchedule.exam_type == ExamType.EXAM
+            )
 
         if sort:
             query = query.order_by(
@@ -180,7 +180,7 @@ class MainRepository:
             .join(ExaminationList, Abiturient.ex_list_id == ExaminationList.id) \
             .join(ExamRecord, ExaminationList.id == ExamRecord.ex_list_id) \
             .filter(Faculty.faculty_name == faculty_name) \
-            .group_by(Abiturient.id, Abiturient.last_name, Abiturient.first_name, Abiturient.has_medal)
+            .group_by(Abiturient.id)
 
         if sort:
             query = query.order_by(
