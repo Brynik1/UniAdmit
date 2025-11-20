@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Index
 from sqlalchemy.orm import relationship
 
 from .base import Base
@@ -14,3 +14,7 @@ class Department(Base):
 
     faculty = relationship("Faculty", back_populates="departments")
     abiturients = relationship("Abiturient", back_populates="department")
+
+    __table_args__ = (
+        Index('ix_department_faculty', 'faculty_id'),
+    )

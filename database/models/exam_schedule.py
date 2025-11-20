@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Enum, Index
 from sqlalchemy.orm import relationship
 
 from .base import Base
@@ -23,3 +23,8 @@ class ExamSchedule(Base):
 
     stream = relationship("Stream", back_populates="exam_schedules")
     subject = relationship("Subject", back_populates="exam_schedules")
+
+    __table_args__ = (
+        Index('ix_exam_schedule_stream', 'stream_id'),
+        Index('ix_exam_schedule_subject', 'subject_id'),
+    )

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Index
 from sqlalchemy.orm import relationship
 
 from .base import Base
@@ -12,3 +12,7 @@ class Faculty(Base):
     faculty_name = Column(String, nullable=False)  # Изменено с name
 
     departments = relationship("Department", back_populates="faculty")
+
+    __table_args__ = (
+        Index('ix_faculty_name', 'faculty_name'),
+    )

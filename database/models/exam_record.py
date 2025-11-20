@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Date, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, Date, ForeignKey, Boolean, Index
 from sqlalchemy.orm import relationship
 
 from .base import Base
@@ -17,3 +17,8 @@ class ExamRecord(Base):
 
     examination_list = relationship("ExaminationList", back_populates="exam_records")
     subject = relationship("Subject", back_populates="exam_records")
+
+    __table_args__ = (
+        Index('ix_exam_record_ex_list', 'ex_list_id'),
+        Index('ix_exam_record_subject', 'subject_id'),
+    )

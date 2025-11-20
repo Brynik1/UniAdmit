@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Index
 from sqlalchemy.orm import relationship
 
 from .base import Base
@@ -13,3 +13,7 @@ class StudyGroup(Base):
 
     examination_lists = relationship("ExaminationList", back_populates="group")
     stream_groups = relationship("StreamGroup", back_populates="group")
+
+    __table_args__ = (
+        Index('ix_study_group_name', 'group_name'),
+    )

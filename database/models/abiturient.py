@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Enum, Boolean
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Enum, Boolean, Index
 from sqlalchemy.orm import relationship
 
 from .base import Base
@@ -34,3 +34,8 @@ class Abiturient(Base):
     department = relationship("Department", back_populates="abiturients")
     school = relationship("School", back_populates="abiturients")
     examination_list = relationship("ExaminationList", back_populates="abiturients")
+
+    __table_args__ = (
+        Index('ix_abiturient_names', 'last_name', 'first_name'),
+        Index('ix_abiturient_department', 'department_id'),
+    )
