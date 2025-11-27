@@ -1,5 +1,7 @@
 import sys
+
 from database import db_manager
+from services.benchmarks import DatabaseBenchmark
 from services.data import seeder
 from services.demo import execute_all_queries
 from core import config
@@ -25,3 +27,11 @@ if __name__ == '__main__':
 
     if '--api' in args:
         run_api()
+
+    if '--bench' in args:
+        benchmark = DatabaseBenchmark(
+            test_sizes=[100, 1000, 10_000, 100_000, 1_000_000],
+            sort=True,
+            limit=5
+        )
+        benchmark.run_benchmark()

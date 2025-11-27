@@ -1,0 +1,30 @@
+# Виртуальное окружение
+**/.venv/
+**/venv/
+**/env/
+
+# Кэш
+**/__pycache__/
+**/*$py.class
+**/*.so
+**/.Python
+**/.DS_Store
+
+# IDE
+**/.idea/
+
+# Логи и БД
+**/*.log
+**/*.db
+
+# Environment variables
+**/.env
+**/.env.example
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# Git
+.git
+.gitignore

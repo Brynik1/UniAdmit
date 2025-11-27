@@ -3,7 +3,6 @@ services:
     build: .
     ports: ["8000:8000"]
     depends_on: [db]
-    volumes: [".:/app"]
     environment:
       # Приложение
       - API_HOST=0.0.0.0
@@ -25,7 +24,8 @@ services:
       - DATA_STREAM_COUNT=100
       - DATA_SUBJECT_COUNT=50
       - DATA_BATCH_SIZE=1000
-    command: main
+
+    command: tail -f /dev/null
 
   db:
     image: postgres:15

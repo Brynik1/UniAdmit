@@ -1,3 +1,3 @@
-from benchmark import DatabaseBenchmark
+from .benchmark import DatabaseBenchmark
 
 __all__ = ['DatabaseBenchmark']
