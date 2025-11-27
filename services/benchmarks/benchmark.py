@@ -11,7 +11,12 @@ from core import config
 class DatabaseBenchmark:
     """Класс для проведения бенчмарков базы данных"""
 
-    def __init__(self, test_sizes: List[int] = None, sort: bool = True, limit: int = 5):
+    def __init__(
+            self,
+            test_sizes: List[int] = None,
+            sort: bool = True,
+            limit: int = 5
+    ):
         self.test_sizes = test_sizes or [100, 1000, 10_000]
         self.sort = sort
         self.limit = limit
