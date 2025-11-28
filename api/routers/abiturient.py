@@ -7,7 +7,7 @@ router = APIRouter(prefix="/abiturient", tags=["abiturients"])
 
 
 @router.get("/{last_name}/{first_name}/grades")
-async def get_abiturient_grades_api(
+async def get_abiturient_grades(
     last_name: str,
     first_name: str,
     repo: MainRepository = Depends(get_repository)
@@ -42,7 +42,7 @@ async def get_abiturient_grades_api(
 
 
 @router.get("/{last_name}/{first_name}/schedule/{subject_name}")
-async def get_abiturient_subject_schedule_api(
+async def get_abiturient_subject_schedule(
     last_name: str,
     first_name: str,
     subject_name: str,

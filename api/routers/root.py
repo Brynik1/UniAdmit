@@ -7,7 +7,7 @@ router = APIRouter(tags=["root"])
 
 
 @router.get("/")
-async def root_api(repo: MainRepository = Depends(get_repository)):
+async def root(repo: MainRepository = Depends(get_repository)):
     """Корневой эндпоинт с информацией о API и примерами запросов"""
 
     # Получаем примеры данных

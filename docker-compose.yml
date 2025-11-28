@@ -25,7 +25,7 @@ services:
       - DATA_SUBJECT_COUNT=50
       - DATA_BATCH_SIZE=1000
 
-    command: tail -f /dev/null
+    command: python main.py --sample --api
 
   db:
     image: postgres:15

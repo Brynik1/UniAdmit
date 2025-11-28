@@ -7,7 +7,7 @@ router = APIRouter(prefix="/group", tags=["groups"])
 
 
 @router.get("/{group_name}/schedule")
-async def get_group_schedule_api(
+async def get_group_schedule(
     group_name: str,
     repo: MainRepository = Depends(get_repository)
 ):
