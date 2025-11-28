@@ -11,7 +11,7 @@ if __name__ == "__main__":
         structure.append(f"{indent}{os.path.basename(root)}/")
 
         for file in sorted(files):
-            if file.endswith('.py') and file != 'help.py':  # Игнорируем себя
+            if file.endswith('.py') and file != 'help.py':
                 structure.append(f"{indent}  {file}")
                 project_files.append(os.path.join(root, file))
 
