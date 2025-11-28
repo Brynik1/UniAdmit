@@ -6,7 +6,7 @@ from api.di import get_repository
 router = APIRouter(prefix="/faculty", tags=["faculties"])
 
 
-@router.get("/{faculty_name}/abiturients")
+@router.get("/abiturients")
 async def get_faculty_abiturients(
     faculty_name: str,
     repo: MainRepository = Depends(get_repository)
@@ -42,7 +42,7 @@ async def get_faculty_abiturients(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/{faculty_name}/rating")
+@router.get("/rating")
 async def get_faculty_rating(
     faculty_name: str,
     repo: MainRepository = Depends(get_repository)
@@ -77,7 +77,7 @@ async def get_faculty_rating(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/{faculty_name}/avg-grades")
+@router.get("/avg-grades")
 async def get_faculty_avg_grades(
     faculty_name: str,
     repo: MainRepository = Depends(get_repository)

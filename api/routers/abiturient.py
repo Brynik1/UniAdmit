@@ -6,7 +6,7 @@ from api.di import get_repository
 router = APIRouter(prefix="/abiturient", tags=["abiturients"])
 
 
-@router.get("/{last_name}/{first_name}/grades")
+@router.get("/grades")
 async def get_abiturient_grades(
     last_name: str,
     first_name: str,
@@ -41,7 +41,7 @@ async def get_abiturient_grades(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
-@router.get("/{last_name}/{first_name}/schedule/{subject_name}")
+@router.get("/schedule")
 async def get_abiturient_subject_schedule(
     last_name: str,
     first_name: str,
