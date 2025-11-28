@@ -16,44 +16,33 @@ async def root(repo: MainRepository = Depends(get_repository)):
     groups_sample = repo.study_group.get_sample(limit=3)
     subjects_sample = repo.subject.get_sample(limit=3)
 
-    faculty_example = faculties_with_students[0].faculty_name if faculties_with_students else "Какая-то кафедра"
-    abiturient_example = abiturients_sample[0]
-    group_example = groups_sample[0].group_name if groups_sample else "Какая-то группа"
-    subject_example = subjects_sample[0].subject_name if subjects_sample else "Какой-то предмет"
-
     return {
         "message": "🎓 Добро пожаловать в систему управления абитуриентами!",
         "description": "API для работы с базой данных абитуриентов университета",
         "endpoints": {
             "1.": {
-                "path": "/faculty/{faculty_name}/abiturients",
+                "path": "/faculty/abiturients",
                 "description": "Получить всех абитуриентов указанного факультета",
-                "example": f"/faculty/{faculty_example}/abiturients"
             },
             "2.": {
-                "path": "/abiturient/{last_name}/{first_name}/grades",
+                "path": "/abiturient/grades",
                 "description": "Получить все оценки абитуриента",
-                "example": f"/abiturient/{abiturient_example.last_name}/{abiturient_example.first_name}/grades"
             },
             "3.": {
-                "path": "/abiturient/{last_name}/{first_name}/schedule/{subject_name}",
+                "path": "/abiturient/schedule",
                 "description": "Получить расписание консультаций и экзаменов для абитуриента по предмету",
-                "example": f"/abiturient/{abiturient_example.last_name}/{abiturient_example.first_name}/schedule/{subject_example}"
             },
             "4.": {
-                "path": "/group/{group_name}/schedule",
+                "path": "/group/schedule",
                 "description": "Получить расписание экзаменов для учебной группы",
-                "example": f"/group/{group_example}/schedule"
             },
             "5.": {
-                "path": "/faculty/{faculty_name}/rating",
+                "path": "/faculty/rating",
                 "description": "Получить рейтинг абитуриентов факультета по сумме баллов",
-                "example": f"/faculty/{faculty_example}/rating"
             },
             "6.": {
-                "path": "/faculty/{faculty_name}/avg-grades",
+                "path": "/faculty/avg-grades",
                 "description": "Получить средний балл по предметам на факультете",
-                "example": f"/faculty/{faculty_example}/avg-grades"
             },
             "7.": {
                 "path": "/",
