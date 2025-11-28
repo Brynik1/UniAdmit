@@ -1,6 +1,5 @@
 from time import perf_counter
 from typing import Dict, List, Any, Optional
-import matplotlib.pyplot as plt
 
 from database import db_manager
 from services.data import seeder
@@ -171,25 +170,6 @@ class DatabaseBenchmark:
 
             print(row)
 
-    def _plot_results(self) -> None:
-        """Построение графиков результатов"""
-        plt.figure(figsize=(12, 8))
-
-        for query_name in self.benchmark_results:
-            sizes = []
-            times = []
-            for size in self.test_sizes:
-                sizes.append(size)
-                times.append(self.benchmark_results[query_name][size])
-            plt.plot(sizes, times, marker='o', label=query_name)
-
-        plt.xlabel('Количество записей')
-        plt.ylabel('Время выполнения (мс)')
-        plt.title('Зависимость времени выполнения от количества записей')
-        plt.legend()
-        plt.grid(True)
-        plt.show()
-
     def run_benchmark(self) -> None:
         """Основной метод запуска всего бенчмарка"""
         for size in self.test_sizes:
@@ -204,7 +184,7 @@ class DatabaseBenchmark:
 def main():
     """Точка входа в программу"""
     benchmark = DatabaseBenchmark(
-        test_sizes=[100, 1000, 10_000, 100_000, 1_000_000],
+        test_sizes=[100, 1000, 10_000],
         sort=True,
         limit=5
     )
