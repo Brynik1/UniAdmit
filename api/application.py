@@ -28,7 +28,7 @@ def run_api():
     app = create_app()
 
     uvicorn.run(
-        app,
+        app=app,
         host=config.api.host,
         port=config.api.port,
         reload=False
