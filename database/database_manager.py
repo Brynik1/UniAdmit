@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 from contextlib import contextmanager
 from core.config import config
@@ -21,6 +21,16 @@ class DatabaseManager:
 
     def drop_tables(self):
         Base.metadata.drop_all(bind=self.engine)
+
+    def check_tables(self):
+        """
+        Простая проверка, что все модели созданы в БД и нет лишних таблиц.
+        """
+        inspector = inspect(self.engine)
+        db_tables = set(inspector.get_table_names())
+        model_tables = set(Base.metadata.tables.keys())
+
+        return db_tables == model_tables
 
     @contextmanager
     def get_session(self):
