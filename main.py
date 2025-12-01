@@ -20,6 +20,7 @@ def sample_seed(db):
 
 def bulk_seed(db):
     prepare_db(db)
+
     config.data.mode = 'bulk'
     print(f"Заполнение базы данных в режиме bulk")
     seeder.seed()
